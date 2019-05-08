@@ -9,8 +9,6 @@ public class RxParseInfo {
 
     private final String codeKey;
     private final String dataKey;
-
-
     private final String msgKey;
 
     public RxParseInfo(String codeKey, String dataKey, String msgKey) {
@@ -20,9 +18,16 @@ public class RxParseInfo {
     }
 
     public boolean hasKey(JsonObject asJsonObject) throws Exception {
-        boolean hasCode = asJsonObject.has(codeKey);
-        boolean hasData = asJsonObject.has(dataKey);
-        boolean hasMsg = asJsonObject.has(msgKey);
+        boolean hasCode = false, hasData = false, hasMsg = false;
+        if (codeKey != null) {
+            hasCode = asJsonObject.has(codeKey);
+        }
+        if (dataKey != null) {
+            hasData = asJsonObject.has(dataKey);
+        }
+        if (msgKey != null) {
+            hasMsg = asJsonObject.has(msgKey);
+        }
         return hasCode && hasData && hasMsg;
     }
 
