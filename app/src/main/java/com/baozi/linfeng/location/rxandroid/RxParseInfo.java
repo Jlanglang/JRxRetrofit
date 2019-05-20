@@ -57,15 +57,15 @@ public class RxParseInfo {
         return this;
     }
 
-    public boolean isSuccess(JsonObject asJsonObject) {
+    public boolean isSuccess(JsonObject jsonObject) {
         if (checkSuccess != null) {
-            return checkSuccess.isSuccess(asJsonObject);
+            return checkSuccess.isSuccess(jsonObject);
         }
-        String code = asJsonObject.get(codeKey).toString();
+        String code = jsonObject.get(codeKey).toString();
         return TextUtils.equals(code, successCode);
     }
 
     public interface CheckSuccess {
-        boolean isSuccess(JsonObject asJsonObject);
+        boolean isSuccess(JsonObject jsonObject);
     }
 }
