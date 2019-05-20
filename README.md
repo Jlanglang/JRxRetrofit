@@ -6,7 +6,7 @@
 # 依赖:
 
 ```
-  implementation 'com.github.Jlanglang:JRxRetrofit:1.0.2'
+  implementation 'com.github.Jlanglang:JRxRetrofit:1.0.3'
 ```
 
 
