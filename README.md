@@ -45,7 +45,7 @@ public RxParseInfo(String codeKey, String dataKey, String msgKey, String success
 
 ```
 
-这段代码代表着.你的basebean的格式是.等价于
+这段代码等价于你的basebean的格式是.也就是接口返回规则
 ```
 class BaseBean<T>{
   String code;
