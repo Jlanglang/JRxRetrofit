@@ -8,7 +8,12 @@
 ```
   implementation 'com.github.Jlanglang:JRxRetrofit:1.0.3'
 ```
-
+根build.gradle里面添加
+```
+ repositories {
+     maven { url 'https://jitpack.io' }
+ }
+```
 
 # 使用:
 
