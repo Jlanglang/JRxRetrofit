@@ -26,27 +26,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         NetWorkManager.init("https://api.apiopen.top/", getApplication());
         NetWorkManager.addParseInfo(
-                new RxParseInfo("code", "result", "message", "100")
-                        .setCheckSuccess(new RxParseInfo.CheckSuccess() {
-                            @Override
-                            public boolean isSuccess(JsonObject jsonObject) {
-                                JsonElement result = jsonObject.get("result");
-                                String code = jsonObject.get("code").toString();
-                                return result.isJsonObject() && "100".equals(code);
-                            }
-                        })
+                new RxParseInfo("code", "result", "message", "200")
+//                .setCheckSuccess(new RxParseInfo.CheckSuccess() {
+//                    @Override
+//                    public boolean isSuccess(JsonObject jsonObject) {
+//                        return false;
+//                    }
+//                })
         );
         NetWorkManager.setApiCallBack(new APICallBack() {
             @Override
             public String callback(String code, String resultData) {
-                if (code.equals("1")) {
-                    return "状态不对";
-                }
-                if (code.equals("200")) {
-                    return "脑子不对";
-                }
                 JsonElement jsonElement = JSONFactory.parseJson(resultData);
-                return JSONFactory.getValue(jsonElement, "msg");
+                return JSONFactory.getValue(jsonElement, "message");
             }
         });
 
