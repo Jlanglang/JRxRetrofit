@@ -3,7 +3,14 @@
 这是一个rxjava2+retrofit2的封装网络框架.目的是快速开发,快速配置.
 
 
-# 初始化:
+# 依赖:
+
+```
+  implementation 'com.github.Jlanglang:JRxRetrofit:1.0.2'
+```
+
+
+# 使用:
 
 首先.你需要
 
