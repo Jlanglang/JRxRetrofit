@@ -18,6 +18,10 @@ import okhttp3.Interceptor;
  * 网络管理类
  */
 public final class NetWorkManager {
+
+    private static int DEFAULT_TIME_OUT = 30;
+    private static int DEFAULT_RETRY = 5;
+
     private static onExceptionListener errorListener;
     /**
      * code状态码处理回调
@@ -36,11 +40,9 @@ public final class NetWorkManager {
 
     public static HashSet<Interceptor> mInterceptors = new HashSet<>();
 
-    public static HashSet<RxParseInfo> rxParseInfos = new HashSet<>();
+    public static HashSet<RxParseInfo> rxParseInfoSet = new HashSet<>();
 
     private static boolean mOpenApiException;
-
-    private static String mSuccessCode;
 
     private static Proxy proxy; // 代理
 
@@ -52,10 +54,25 @@ public final class NetWorkManager {
     /**
      * 初始化
      */
-    public static void init(String baseUrl, String successCode, Application context) {
+    public static void init(String baseUrl, Application context) {
         mContext = context;
-        mSuccessCode = successCode;
         RetrofitUtil.init(baseUrl, context);
+    }
+
+    public static void setDefaultTimeOut(int defaultTimeOut) {
+        DEFAULT_TIME_OUT = defaultTimeOut;
+    }
+
+    public static int getDefaultTimeOut() {
+        return DEFAULT_TIME_OUT;
+    }
+
+    public static void setDefaultRetry(int defaultRetry) {
+        DEFAULT_RETRY = defaultRetry;
+    }
+
+    public static int getDefaultRetry() {
+        return DEFAULT_RETRY;
     }
 
     /**
@@ -122,10 +139,6 @@ public final class NetWorkManager {
         mOpenApiException = openApiException;
     }
 
-    public static String getSuccessCode() {
-        return mSuccessCode;
-    }
-
     public static Application getContext() {
         return mContext;
     }
@@ -137,11 +150,11 @@ public final class NetWorkManager {
 
 
     public static HashSet<RxParseInfo> getParseInfo() {
-        return rxParseInfos;
+        return rxParseInfoSet;
     }
 
     public static void addParseInfo(RxParseInfo parseInterceptor) {
-        rxParseInfos.add(parseInterceptor);
+        rxParseInfoSet.add(parseInterceptor);
     }
 
     /**

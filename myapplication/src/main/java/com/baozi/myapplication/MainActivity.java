@@ -8,12 +8,14 @@ import com.baozi.linfeng.location.SimpleParams;
 import com.baozi.linfeng.location.retrofit.RetrofitUtil;
 import com.baozi.linfeng.location.rxandroid.NetWorkTransformer;
 import com.baozi.linfeng.location.rxandroid.RxParseInfo;
+import com.google.gson.JsonObject;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.zip.Inflater;
 
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -38,9 +40,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        NetWorkManager.addInterceptor(new InflaterRequestInterceptor());
-        NetWorkManager.init("https://www.apiopen.top/", "200", this.getApplication());
-        NetWorkManager.addParseInfo(new RxParseInfo("code", "data", "msg"));
-        RetrofitUtil.getApi(JApi.class)
+        NetWorkManager.init("https://www.apiopen.top/", this.getApplication());
+        NetWorkManager.addParseInfo(
+                new RxParseInfo("code", "data", "msg", new RxParseInfo.CheckSuccess() {
+                    @Override
+                    public boolean isSuccess(JsonObject asJsonObject) {
+                        return "200".equals(asJsonObject.get("code").toString());
+                    }
+                }));
+        Disposable journalismApi = RetrofitUtil.getApi(JApi.class)
                 .BasePost("journalismApi",
                         SimpleParams.create()
                 )
@@ -49,11 +57,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void accept(String stringBaseResponse) throws Exception {
                         String data = stringBaseResponse;
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        throwable.printStackTrace();
                     }
                 });
         setContentView(R.layout.activity_main);

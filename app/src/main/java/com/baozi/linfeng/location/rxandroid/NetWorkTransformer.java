@@ -24,8 +24,6 @@ import io.reactivex.schedulers.Schedulers;
  * 当data可能为null时,请使用JsonArrayParesTransformer,JsonParesTransformer
  */
 public class NetWorkTransformer implements ObservableTransformer<String, String> {
-    private static final int DEFAULT_TIME_OUT = 30;
-    private static final int DEFAULT_RETRY = 5;
 
     @Override
     public ObservableSource<String> apply(Observable<String> upstream) {
@@ -33,8 +31,8 @@ public class NetWorkTransformer implements ObservableTransformer<String, String>
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
-                .timeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS)
-                .retry(DEFAULT_RETRY)
+                .timeout(NetWorkManager.getDefaultTimeOut(), TimeUnit.SECONDS)
+                .retry(NetWorkManager.getDefaultRetry())
                 .map(response -> {
                     JsonElement jsonElement = JSONFactory.parseJson(response);
                     JsonObject asJsonObject = jsonElement.getAsJsonObject();
@@ -49,7 +47,7 @@ public class NetWorkTransformer implements ObservableTransformer<String, String>
                     String msg = JSONFactory.getValue(jsonElement, parseInfo.getMsgKey());
                     String data = JSONFactory.getValue(jsonElement, parseInfo.getDataKey());
                     //如果请求成功,直接返回数据
-                    if (TextUtils.equals(code, NetWorkManager.getSuccessCode())) {
+                    if (parseInfo.getCheckSuccess().isSuccess(asJsonObject)) {
                         return data;
                     }
 
