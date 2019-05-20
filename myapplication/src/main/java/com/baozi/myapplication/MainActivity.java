@@ -52,7 +52,12 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String stringBaseResponse) throws Exception {
-                        Log.i("data",stringBaseResponse);
+                        Log.i("data", stringBaseResponse);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
                     }
                 });
         setContentView(R.layout.activity_main);
