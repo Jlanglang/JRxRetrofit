@@ -2,6 +2,7 @@ package com.baozi.myapplication;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.baozi.linfeng.NetWorkManager;
 import com.baozi.linfeng.location.SimpleParams;
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        NetWorkManager.addInterceptor(new InflaterRequestInterceptor());
         NetWorkManager.init("https://www.apiopen.top/", this.getApplication());
         NetWorkManager.addParseInfo(
                 new RxParseInfo("code", "data", "msg", new RxParseInfo.CheckSuccess() {
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String stringBaseResponse) throws Exception {
-                        String data = stringBaseResponse;
+                        Log.i("data",stringBaseResponse);
                     }
                 });
         setContentView(R.layout.activity_main);
@@ -109,38 +109,6 @@ public class MainActivity extends AppCompatActivity {
         @GET
         Observable<String> BaseGet(@Url String url, @QueryMap SimpleParams params);
 
-    }
-
-    public class InflaterRequestInterceptor implements Interceptor {
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Request originalRequest = chain.request();
-            if (originalRequest.body() == null) {
-                return chain.proceed(originalRequest);
-            }
-            Response proceed = chain.proceed(originalRequest);
-            ResponseBody body = proceed.body();
-            return proceed.newBuilder().body(inflater(body)).build();
-        }
-
-        private ResponseBody inflater(final ResponseBody body) {
-            return new ResponseBody() {
-                @Override
-                public MediaType contentType() {
-                    return body.contentType();
-                }
-
-                @Override
-                public long contentLength() {
-                    return -1; // 无法提前知道压缩后的数据大小
-                }
-
-                @Override
-                public BufferedSource source() {
-                    return Okio.buffer(new InflaterSource(body.source(), new Inflater(true)));
-                }
-            };
-        }
     }
 }
 

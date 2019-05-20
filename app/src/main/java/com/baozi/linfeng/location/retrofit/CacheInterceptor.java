@@ -14,6 +14,7 @@ import okhttp3.Response;
 
 public class CacheInterceptor implements Interceptor {
     @Override
+    @NonNull
     public Response intercept(@NonNull Chain chain) throws IOException {
         //拿到请求体
         Request request = chain.request();
