@@ -1,5 +1,7 @@
 package com.baozi.linfeng.location.rxandroid;
 
+import android.text.TextUtils;
+
 import com.baozi.linfeng.factory.JSONFactory;
 
 import io.reactivex.Observable;
@@ -25,7 +27,7 @@ public class JsonParesTransformer<T> implements ObservableTransformer<String, T>
         return upstream.compose(new NetWorkTransformer())
                 .observeOn(Schedulers.computation())
                 .flatMap(s -> Observable
-                        .just(JSONFactory.fromJson("".equals(s) ? "{}" : s, zClass)))
+                        .just(JSONFactory.fromJson(TextUtils.isEmpty(s) ? "{}" : s, zClass)))
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }

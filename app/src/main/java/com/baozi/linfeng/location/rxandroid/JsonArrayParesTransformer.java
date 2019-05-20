@@ -1,5 +1,7 @@
 package com.baozi.linfeng.location.rxandroid;
 
+import android.text.TextUtils;
+
 import com.baozi.linfeng.factory.JSONFactory;
 import com.baozi.linfeng.location.model.ParameterTypeImpl;
 
@@ -29,7 +31,7 @@ public class JsonArrayParesTransformer<T> implements ObservableTransformer<Strin
         return upstream.compose(new NetWorkTransformer())
                 .observeOn(Schedulers.computation())
                 .flatMap(s -> {
-                    s = "".equals(s) ? "[]" : s;
+                    s = TextUtils.isEmpty(s) ? "[]" : s;
                     ParameterTypeImpl parameterType = new ParameterTypeImpl(List.class, new Type[]{zClass});
                     List<T> list = JSONFactory.fromJson(s, parameterType);
                     return Observable.just(list);

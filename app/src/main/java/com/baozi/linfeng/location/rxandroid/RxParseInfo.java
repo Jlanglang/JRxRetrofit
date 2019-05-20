@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 
 
 public class RxParseInfo {
-    public final static RxParseInfo DEFAULT =
+    public static final RxParseInfo DEFAULT =
             new RxParseInfo("code", "data", "msg", new CheckSuccess() {
                 @Override
                 public boolean isSuccess(JsonObject asJsonObject) {
