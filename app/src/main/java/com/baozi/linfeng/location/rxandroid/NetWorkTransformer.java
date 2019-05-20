@@ -47,7 +47,7 @@ public class NetWorkTransformer implements ObservableTransformer<String, String>
                     String msg = JSONFactory.getValue(jsonElement, parseInfo.getMsgKey());
                     String data = JSONFactory.getValue(jsonElement, parseInfo.getDataKey());
                     //如果请求成功,直接返回数据
-                    if (parseInfo.getCheckSuccess().isSuccess(asJsonObject)) {
+                    if (parseInfo.isSuccess(asJsonObject)) {
                         return data;
                     }
 

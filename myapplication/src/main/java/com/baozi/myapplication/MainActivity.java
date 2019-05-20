@@ -40,14 +40,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NetWorkManager.init("https://www.apiopen.top/", this.getApplication());
+        NetWorkManager.init("https://www.apiopen.top/", getApplication());
         NetWorkManager.addParseInfo(
-                new RxParseInfo("code", "data", "msg", new RxParseInfo.CheckSuccess() {
-                    @Override
-                    public boolean isSuccess(JsonObject asJsonObject) {
-                        return "200".equals(asJsonObject.get("code").toString());
-                    }
-                }));
+                new RxParseInfo("code", "data", "msg", "200")
+        );
         Disposable journalismApi = RetrofitUtil.getApi(JApi.class)
                 .BasePost("journalismApi",
                         SimpleParams.create()

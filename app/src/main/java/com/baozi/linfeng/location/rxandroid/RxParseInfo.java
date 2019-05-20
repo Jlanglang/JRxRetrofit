@@ -1,27 +1,25 @@
 package com.baozi.linfeng.location.rxandroid;
 
+import android.text.TextUtils;
+
 import com.google.gson.JsonObject;
 
 
 public class RxParseInfo {
     public static final RxParseInfo DEFAULT =
-            new RxParseInfo("code", "data", "msg", new CheckSuccess() {
-                @Override
-                public boolean isSuccess(JsonObject asJsonObject) {
-                    return asJsonObject.get("code").toString().equals("0");
-                }
-            });
+            new RxParseInfo("code", "data", "msg", "200");
 
     private final String codeKey;
     private final String dataKey;
     private final String msgKey;
-    private final CheckSuccess checkSuccess;
+    private final String successCode;
+    private CheckSuccess checkSuccess;
 
-    public RxParseInfo(String codeKey, String dataKey, String msgKey, CheckSuccess checkSuccess) {
+    public RxParseInfo(String codeKey, String dataKey, String msgKey, String successCode) {
         this.codeKey = codeKey;
         this.dataKey = dataKey;
         this.msgKey = msgKey;
-        this.checkSuccess = checkSuccess;
+        this.successCode = successCode;
     }
 
     public boolean hasKey(JsonObject asJsonObject) throws Exception {
@@ -52,6 +50,19 @@ public class RxParseInfo {
 
     public CheckSuccess getCheckSuccess() {
         return checkSuccess;
+    }
+
+    public RxParseInfo setCheckSuccess(CheckSuccess checkSuccess) {
+        this.checkSuccess = checkSuccess;
+        return this;
+    }
+
+    public boolean isSuccess(JsonObject asJsonObject) {
+        if (checkSuccess != null) {
+            return checkSuccess.isSuccess(asJsonObject);
+        }
+        String code = asJsonObject.get(codeKey).toString();
+        return TextUtils.equals(code, successCode);
     }
 
     public interface CheckSuccess {
