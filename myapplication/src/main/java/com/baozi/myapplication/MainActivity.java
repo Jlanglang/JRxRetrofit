@@ -43,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
         NetWorkManager.init("https://www.apiopen.top/", getApplication());
         NetWorkManager.addParseInfo(
                 new RxParseInfo("code", "data", "msg", "200")
+//                .setCheckSuccess(new RxParseInfo.CheckSuccess() {
+//                    @Override
+//                    public boolean isSuccess(JsonObject asJsonObject) {
+//                        return false;
+//                    }
+//                })
         );
         Disposable journalismApi = RetrofitUtil.getApi(JApi.class)
                 .BasePost("journalismApi",
