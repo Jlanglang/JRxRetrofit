@@ -15,10 +15,8 @@
 首先.你需要
 
 ```
-init(String baseUrl, Application context)
+NetWorkManager.init(String baseUrl, Application context)
 ```
-
---- 
 
 
 然后,你需要定义自己的basebean规则,
