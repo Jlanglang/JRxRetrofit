@@ -8,7 +8,12 @@
 ```
   implementation 'com.github.Jlanglang:JRxRetrofit:1.0.3'
 ```
-
+根build.gradle里面添加
+```
+ repositories {
+     maven { url 'https://jitpack.io' }
+ }
+```
 
 # 使用:
 
@@ -19,19 +24,8 @@ NetWorkManager.init(String baseUrl, Application context)
 ```
 
 
-然后,你需要定义自己的basebean规则,
+然后,你需要定义自己的basebean规则
 
-# RxParseInfo
-```
-public RxParseInfo(String codeKey, String dataKey, String msgKey, String successCode) {
-        this.codeKey = codeKey;
-        this.dataKey = dataKey;
-        this.msgKey = msgKey;
-        this.successCode = successCode;
-    }
-```
-
-使用:
 ```
 
  NetWorkManager.addParseInfo(
@@ -40,7 +34,18 @@ public RxParseInfo(String codeKey, String dataKey, String msgKey, String success
 
 ```
 
-这段代码代表着.你的basebean的格式是.等价于
+RxParseInfo
+```
+public RxParseInfo(String codeKey, String dataKey, String msgKey, String successCode) {
+        this.codeKey = codeKey;
+        this.dataKey = dataKey;
+        this.msgKey = msgKey;
+        this.successCode = successCode;
+    }
+    ...
+```
+
+RxParseInfo等价于你的basebean的格式是.也就是接口返回规则
 ```
 class BaseBean<T>{
   String code;
