@@ -84,9 +84,10 @@ new RxParseInfo("code", "data", "msg", "200")
                         return false;
                     }
                 })
-
+```
 
 # 简单列子:
+
 ```
    NetWorkManager.init("https://api.apiopen.top/", getApplication());
         NetWorkManager.addParseInfo(
