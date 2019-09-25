@@ -85,6 +85,34 @@ new RxParseInfo("code", "data", "msg", "200")
                     }
                 })
 
-```
 
+# 简单列子:
+```
+   NetWorkManager.init("https://api.apiopen.top/", getApplication());
+        NetWorkManager.addParseInfo(
+                new RxParseInfo("code", "result", "message", "200")
+//                        .setCheckSuccess(new RxParseInfo.CheckSuccess() {
+//                            @Override
+//                            public boolean isSuccess(JsonObject jsonObject) {
+//                                return false;
+//                            }
+//                        })
+        );
+        NetWorkManager.setApiCallBack(new APICallBack() {
+            @Override
+            public String callback(String code, String resultData) {
+                JsonElement jsonElement = JSONFactory.parseJson(resultData);
+                return JSONFactory.getValue(jsonElement, "message");
+            }
+        });
+
+        Disposable request = RetrofitUtil.getApi(JApi.class)
+                .BasePost("recommendPoetry", SimpleParams.create())
+                .compose(new NetWorkTransformer())
+                .subscribe(stringBaseResponse -> {
+
+                }, e -> {
+
+                });
+```
 

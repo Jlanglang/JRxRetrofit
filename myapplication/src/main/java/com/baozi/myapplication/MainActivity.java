@@ -27,12 +27,12 @@ public class MainActivity extends AppCompatActivity {
         NetWorkManager.init("https://api.apiopen.top/", getApplication());
         NetWorkManager.addParseInfo(
                 new RxParseInfo("code", "result", "message", "200")
-                        .setCheckSuccess(new RxParseInfo.CheckSuccess() {
-                            @Override
-                            public boolean isSuccess(JsonObject jsonObject) {
-                                return false;
-                            }
-                        })
+//                        .setCheckSuccess(new RxParseInfo.CheckSuccess() {
+//                            @Override
+//                            public boolean isSuccess(JsonObject jsonObject) {
+//                                return false;
+//                            }
+//                        })
         );
         NetWorkManager.setApiCallBack(new APICallBack() {
             @Override
@@ -42,15 +42,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Disposable journalismApi = RetrofitUtil.getApi(JApi.class)
-                .BasePost("recommendPoetry",
-                        SimpleParams.create()
-                )
+        Disposable request = RetrofitUtil.getApi(JApi.class)
+                .BasePost("recommendPoetry", SimpleParams.create())
                 .compose(new NetWorkTransformer())
                 .subscribe(stringBaseResponse -> {
-                    Log.i("123", stringBaseResponse);
+
                 }, e -> {
-                    e.printStackTrace();
+
                 });
         setContentView(R.layout.activity_main);
     }
