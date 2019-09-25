@@ -102,8 +102,9 @@ new RxParseInfo("code", "data", "msg", "200")
         NetWorkManager.setApiCallBack(new APICallBack() {
             @Override
             public String callback(String code, String resultData) {
-                JsonElement jsonElement = JSONFactory.parseJson(resultData);
-                return JSONFactory.getValue(jsonElement, "message");
+                //可以 再这里获取code,解析data.主要是为了根据接口返回的code,做处理
+                JsonElement json = JSONFactory.parseJson(resultData);
+                return JSONFactory.getValue(json, "message");
             }
         });
 
