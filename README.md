@@ -86,7 +86,7 @@ new RxParseInfo("code", "data", "msg", "200")
                 })
 ```
 
-# 简单列子:
+# 简单例子:
 
 ```
    NetWorkManager.init("https://api.apiopen.top/", getApplication());
