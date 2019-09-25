@@ -75,6 +75,7 @@ RxParseInfo 里默认通过判断上面的`successCode`与返回的`codeKey`的�
 ```
 
 # 如何自定义请求成功判断
+可以不添加,非必要.主要是为了扩展.
 ```
 new RxParseInfo("code", "data", "msg", "200")
  .setCheckSuccess(new RxParseInfo.CheckSuccess() {
