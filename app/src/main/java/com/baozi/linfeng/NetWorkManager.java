@@ -7,7 +7,7 @@ import com.baozi.linfeng.factory.EncodeDecodeKey;
 import com.baozi.linfeng.location.APICallBack;
 import com.baozi.linfeng.location.onExceptionListener;
 import com.baozi.linfeng.location.retrofit.RetrofitUtil;
-import com.baozi.linfeng.location.rxandroid.RxParseInfo;
+import com.baozi.linfeng.location.retrofit.ParseInfo;
 
 import java.net.Proxy;
 import java.util.HashSet;
@@ -40,7 +40,7 @@ public final class NetWorkManager {
 
     public static HashSet<Interceptor> mInterceptors = new HashSet<>();
 
-    public static HashSet<RxParseInfo> rxParseInfoSet = new HashSet<>();
+    public static HashSet<ParseInfo> rxParseInfoSet = new HashSet<>();
 
     private static boolean mOpenApiException;
 
@@ -149,11 +149,11 @@ public final class NetWorkManager {
     }
 
 
-    public static HashSet<RxParseInfo> getParseInfo() {
+    public static HashSet<ParseInfo> getParseInfo() {
         return rxParseInfoSet;
     }
 
-    public static void addParseInfo(RxParseInfo parseInterceptor) {
+    public static void addParseInfo(ParseInfo parseInterceptor) {
         rxParseInfoSet.add(parseInterceptor);
     }
 

@@ -1,13 +1,13 @@
-package com.baozi.linfeng.location.rxandroid;
+package com.baozi.linfeng.location.retrofit;
 
 import android.text.TextUtils;
 
 import com.google.gson.JsonObject;
 
 
-public class RxParseInfo {
-    public static final RxParseInfo DEFAULT =
-            new RxParseInfo("code", "data", "msg", "200");
+public class ParseInfo {
+    public static final ParseInfo DEFAULT =
+            new ParseInfo("code", "data", "msg", "200");
 
     private final String codeKey;
     private final String dataKey;
@@ -15,7 +15,7 @@ public class RxParseInfo {
     private final String successCode;
     private CheckSuccess checkSuccess;
 
-    public RxParseInfo(String codeKey, String dataKey, String msgKey, String successCode) {
+    public ParseInfo(String codeKey, String dataKey, String msgKey, String successCode) {
         this.codeKey = codeKey;
         this.dataKey = dataKey;
         this.msgKey = msgKey;
@@ -52,7 +52,7 @@ public class RxParseInfo {
         return checkSuccess;
     }
 
-    public RxParseInfo setCheckSuccess(CheckSuccess checkSuccess) {
+    public ParseInfo setCheckSuccess(CheckSuccess checkSuccess) {
         this.checkSuccess = checkSuccess;
         return this;
     }

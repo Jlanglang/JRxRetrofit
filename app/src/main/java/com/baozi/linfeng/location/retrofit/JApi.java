@@ -30,7 +30,7 @@ public interface JApi {
      */
     @POST
     @Multipart
-    Observable<String> BasePost(@Url String url, @PartMap HashMap<String, RequestBody> params);
+    Observable<String> post(@Url String url, @PartMap HashMap<String, RequestBody> params);
 
     /**
      * 通用POST
@@ -40,7 +40,7 @@ public interface JApi {
      * @return
      */
     @POST
-    Observable<String> BasePost(@Url String url, @Body String json);
+    Observable<String> post(@Url String url, @Body String json);
 
     /**
      * 通用POST
@@ -50,7 +50,7 @@ public interface JApi {
      * @return
      */
     @POST
-    Observable<String> BasePost(@Url String url, @Body SimpleParams json);
+    Observable<String> post(@Url String url, @Body SimpleParams json);
 
     /**
      * 通用get
@@ -59,6 +59,6 @@ public interface JApi {
      * @return
      */
     @GET
-    Observable<String> BaseGet(@Url String url, @QueryMap SimpleParams params);
+    Observable<String> get(@Url String url, @QueryMap SimpleParams params);
 
 }

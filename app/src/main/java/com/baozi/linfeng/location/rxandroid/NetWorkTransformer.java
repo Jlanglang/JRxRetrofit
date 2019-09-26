@@ -2,6 +2,7 @@ package com.baozi.linfeng.location.rxandroid;
 
 import android.text.TextUtils;
 
+import com.baozi.linfeng.location.retrofit.ParseInfo;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.baozi.linfeng.NetWorkManager;
@@ -24,6 +25,11 @@ import io.reactivex.schedulers.Schedulers;
  * 当data可能为null时,请使用JsonArrayParesTransformer,JsonParesTransformer
  */
 public class NetWorkTransformer implements ObservableTransformer<String, String> {
+    private static final NetWorkTransformer netWork = new NetWorkTransformer();
+
+    public static ObservableTransformer<String, String> instance() {
+        return netWork;
+    }
 
     @Override
     public ObservableSource<String> apply(Observable<String> upstream) {
@@ -37,7 +43,7 @@ public class NetWorkTransformer implements ObservableTransformer<String, String>
                     JsonElement jsonElement = JSONFactory.parseJson(response);
                     JsonObject asJsonObject = jsonElement.getAsJsonObject();
 
-                    RxParseInfo parseInfo = getParseInfo(asJsonObject);
+                    ParseInfo parseInfo = getParseInfo(asJsonObject);
                     if (parseInfo == null) {
                         return response;
                     }
@@ -70,15 +76,15 @@ public class NetWorkTransformer implements ObservableTransformer<String, String>
                 });
     }
 
-    private RxParseInfo getParseInfo(JsonObject asJsonObject) throws Exception {
-        HashSet<RxParseInfo> parseInterceptors = NetWorkManager.getParseInfo();
-        for (RxParseInfo p : parseInterceptors) { // 优先判断自定义添加的解析
+    private ParseInfo getParseInfo(JsonObject asJsonObject) throws Exception {
+        HashSet<ParseInfo> parseInterceptors = NetWorkManager.getParseInfo();
+        for (ParseInfo p : parseInterceptors) { // 优先判断自定义添加的解析
             if (p.hasKey(asJsonObject)) {
                 return p;
             }
         }
-        if (RxParseInfo.DEFAULT.hasKey(asJsonObject)) { // 判断默认的,如果不符合,说明配置错误.
-            return RxParseInfo.DEFAULT;
+        if (ParseInfo.DEFAULT.hasKey(asJsonObject)) { // 判断默认的,如果不符合,说明配置错误.
+            return ParseInfo.DEFAULT;
         }
         return null;
     }
