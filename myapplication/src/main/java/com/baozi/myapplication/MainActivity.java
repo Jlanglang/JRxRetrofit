@@ -8,17 +8,12 @@ import com.baozi.linfeng.NetWorkManager;
 import com.baozi.linfeng.factory.JSONFactory;
 import com.baozi.linfeng.location.APICallBack;
 import com.baozi.linfeng.location.SimpleParams;
-import com.baozi.linfeng.location.retrofit.JApi;
 import com.baozi.linfeng.location.retrofit.JApiImpl;
 import com.baozi.linfeng.location.retrofit.ParseInfo;
-import com.baozi.linfeng.location.retrofit.RetrofitUtil;
 import com.baozi.linfeng.location.rxandroid.JRxCompose;
-import com.baozi.linfeng.location.rxandroid.NetWorkTransformer;
 import com.google.gson.JsonElement;
 
-import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,33 +40,9 @@ public class MainActivity extends AppCompatActivity {
         });
         Disposable recommendPoetry = JApiImpl.with(this)
                 .post("recommendPoetry", SimpleParams.create())
-                .compose(JRxCompose.netWork())
+                .compose(JRxCompose.normal())
                 .subscribe(s -> {
 
-                });
-        RetrofitUtil.getApi(JApi.class)
-                .post("recommendPoetry", SimpleParams.create())
-                .compose(new NetWorkTransformer())
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(String s) {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
                 });
 
         setContentView(R.layout.activity_main);

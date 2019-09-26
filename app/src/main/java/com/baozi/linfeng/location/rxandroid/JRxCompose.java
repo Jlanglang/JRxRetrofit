@@ -4,7 +4,7 @@ import io.reactivex.ObservableTransformer;
 
 public class JRxCompose {
 
-    public static ObservableTransformer<String, String> netWork() {
+    public static ObservableTransformer<String, String> normal() {
         return NetWorkTransformer.instance();
     }
 
