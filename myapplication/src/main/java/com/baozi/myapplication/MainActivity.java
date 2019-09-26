@@ -20,24 +20,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NetWorkManager.init("https://api.apiopen.top/", getApplication());
-        NetWorkManager.addParseInfo(
-                new ParseInfo("code", "result", "message", "200")
-//                        .setCheckSuccess(new ParseInfo.CheckSuccess() {
-//                            @Override
-//                            public boolean isSuccess(JsonObject jsonObject) {
-//                                return false;
-//                            }
-//                        })
-        );
-        //
-        NetWorkManager.setApiCallBack(new APICallBack() {
-            @Override
-            public String callback(String code, String resultData) {
-                JsonElement jsonElement = JSONFactory.parseJson(resultData);
-                return JSONFactory.getValue(jsonElement, "message");
-            }
-        });
+        setContentView(R.layout.activity_main);
         Disposable recommendPoetry = JApiImpl.with(this)
                 .post("recommendPoetry", SimpleParams.create())
                 .compose(JRxCompose.normal())
@@ -45,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
                 });
 
-        setContentView(R.layout.activity_main);
     }
 }
 
