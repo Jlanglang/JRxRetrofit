@@ -75,7 +75,7 @@ RxParseInfo 里默认通过判断上面的`successCode`与返回的`codeKey`的�
 ```
 
 # 如何自定义请求成功判断
-可以不添加,非必要.主要是为了扩展.
+使用setCheckSuccess().非必须.主要是为了扩展.
 ```
 new RxParseInfo("code", "data", "msg", "200")
  .setCheckSuccess(new RxParseInfo.CheckSuccess() {
@@ -86,7 +86,7 @@ new RxParseInfo("code", "data", "msg", "200")
                 })
 ```
 
-# 简单列子:
+# 简单例子:
 
 ```
    NetWorkManager.init("https://api.apiopen.top/", getApplication());
@@ -102,8 +102,9 @@ new RxParseInfo("code", "data", "msg", "200")
         NetWorkManager.setApiCallBack(new APICallBack() {
             @Override
             public String callback(String code, String resultData) {
-                JsonElement jsonElement = JSONFactory.parseJson(resultData);
-                return JSONFactory.getValue(jsonElement, "message");
+                //可以 再这里获取code,解析data.主要是为了根据接口返回的code,做处理
+                JsonElement json = JSONFactory.parseJson(resultData);
+                return JSONFactory.getValue(json, "message");
             }
         });
 
