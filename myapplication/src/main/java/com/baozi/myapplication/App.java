@@ -42,6 +42,10 @@ public class App extends Application {
         NetWorkManager.setApiCallBack(new APICallBack() {
             @Override
             public String callback(String code, String resultData) {
+                if (code.equals("100")) {
+                    //跳转登陆页面
+                    return "登陆过期";
+                }
                 JsonElement jsonElement = JSONFactory.parseJson(resultData);
                 return JSONFactory.getValue(jsonElement, "message");
             }
