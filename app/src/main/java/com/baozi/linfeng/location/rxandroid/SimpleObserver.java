@@ -1,11 +1,6 @@
 package com.baozi.linfeng.location.rxandroid;
 
 
-import android.text.TextUtils;
-import android.widget.Toast;
-
-import com.baozi.linfeng.NetWorkManager;
-import com.baozi.linfeng.factory.NetWorkErrorFactory;
 
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
@@ -25,14 +20,18 @@ public abstract class SimpleObserver<T> implements Observer<T> {
         this(null);
     }
 
-    public SimpleObserver(CompositeDisposable compositeDisposable) {
-        mCompositeDisposable = compositeDisposable;
+
+    public SimpleObserver(CompositeDisposable com) {
+        mCompositeDisposable = com;
     }
 
     @Override
     public void onSubscribe(@NonNull Disposable d) {
         mDisposable = d;
         try {
+            if (mCompositeDisposable == null) {
+                return;
+            }
             mCompositeDisposable.add(d);
         } catch (Exception ignored) {
 
@@ -46,29 +45,11 @@ public abstract class SimpleObserver<T> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
-        showErrorMsg(e, NetWorkErrorFactory.disposeError(e));
     }
-
-//    private boolean isDisposed() {
-//        return mCompositeDisposable != null && !mDisposable.isDisposed() && !mCompositeDisposable.isDisposed();
-//    }
 
     @Override
     public void onComplete() {
 
-    }
-
-    /**
-     * 默认提示
-     *
-     * @param e
-     * @param errorMsg
-     */
-    @Deprecated
-    public void showErrorMsg(Throwable e, String errorMsg) {
-        if (!TextUtils.isEmpty(errorMsg)) {
-            Toast.makeText(NetWorkManager.getContext(), errorMsg, Toast.LENGTH_SHORT).show();
-        }
     }
 
     public abstract void call(@NonNull T t);

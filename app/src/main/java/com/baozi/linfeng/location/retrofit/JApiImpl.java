@@ -54,7 +54,6 @@ public class JApiImpl implements JApi, LifecycleObserver, ObservableTransformer<
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void onDestroy() {
         this.cancel();
-        Log.i("213", "取消了请求");
     }
 
     @Override
