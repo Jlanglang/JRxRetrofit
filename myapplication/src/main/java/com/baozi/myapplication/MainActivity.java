@@ -13,6 +13,8 @@ import com.baozi.linfeng.location.retrofit.JApiImpl;
 import com.baozi.linfeng.location.retrofit.ParseInfo;
 import com.baozi.linfeng.location.retrofit.RetrofitUtil;
 import com.baozi.linfeng.location.rxandroid.JRxCompose;
+import com.baozi.linfeng.location.rxandroid.SimpleObserver;
+import com.baozi.linfeng.location.rxandroid.ToastObserver;
 import com.baozi.myapplication.bean.Login;
 import com.google.gson.JsonElement;
 
@@ -43,23 +45,22 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-      JApiImpl.with(this)
-                .post("/Login" +
-                        "", SimpleParams.create())
+        JApiImpl.with(this)
+                .post("/Login", SimpleParams.create())
                 .compose(JRxCompose.obj(Login.class))
-                .subscribe(new Consumer<Login>() {
+                .subscribe(new SimpleObserver<Login>() {
                     @Override
-                    public void accept(Login login) throws Exception {
+                    public void call(Login login) {
 
                     }
                 });
+
         JApiImpl.with(this)
-                .post("/Login" +
-                        "", SimpleParams.create())
+                .post("/Login", SimpleParams.create())
                 .compose(JRxCompose.array(Login.class))
-                .subscribe(new Consumer<List<Login>>() {
+                .subscribe(new ToastObserver<List<Login>>() {
                     @Override
-                    public void accept(List<Login> logins) throws Exception {
+                    public void call(List<Login> logins) {
 
                     }
                 });
