@@ -85,36 +85,84 @@ new RxParseInfo("code", "data", "msg", "200")
                     }
                 })
 ```
-
-# 简单例子:
-
+# 初始化
 ```
-   NetWorkManager.init("https://api.apiopen.top/", getApplication());
+public class App extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        NetWorkManager.init("https://api.apiopen.top/", this);
+        NetWorkManager.initKey("私钥", "公钥");//加密解密
+        NetWorkManager.setDefaultRetry(5);//重试次数
+        NetWorkManager.setDefaultTimeOut(20);//秒
         NetWorkManager.addParseInfo(
-                new RxParseInfo("code", "result", "message", "200")
-//                        .setCheckSuccess(new RxParseInfo.CheckSuccess() {
-//                            @Override
-//                            public boolean isSuccess(JsonObject jsonObject) {
-//                                return false;
-//                            }
-//                        })
+                new ParseInfo("code", "result", "message", "200")
         );
+        NetWorkManager.setExceptionListener(new onExceptionListener() {
+            @Override
+            public String onError(Throwable throwable) {
+                if (throwable instanceof NullPointerException) {
+
+                }
+                if (throwable instanceof NetworkErrorException) {
+
+                }
+                if (throwable instanceof SocketException) {
+                    
+                }
+                return null;
+            }
+        });
         NetWorkManager.setApiCallBack(new APICallBack() {
             @Override
             public String callback(String code, String resultData) {
-                //可以 再这里获取code,解析data.主要是为了根据接口返回的code,做处理
-                JsonElement json = JSONFactory.parseJson(resultData);
-                return JSONFactory.getValue(json, "message");
+                JsonElement jsonElement = JSONFactory.parseJson(resultData);
+                return JSONFactory.getValue(jsonElement, "message");
             }
         });
+        NetWorkManager.setOpenApiException(true);
+    }
+}
 
-        Disposable request = RetrofitUtil.getApi(JApi.class)
-                .BasePost("recommendPoetry", SimpleParams.create())
-                .compose(new NetWorkTransformer())
-                .subscribe(stringBaseResponse -> {
 
-                }, e -> {
+```
+# 简单例子:
 
-                });
+```
+      //不使用JApiImpl
+          Disposable login = RetrofitUtil.getApi(JApi.class)
+                  .get("/login", SimpleParams.create()
+                          .putP("key1", 1)
+                          .putP("key2", 2)
+                          .putP("key3", 2)
+                          .putP("key4", 3)
+                  )
+                  .compose(JRxCompose.normal())
+                  .subscribe(new Consumer<String>() {
+                      @Override
+                      public void accept(String s) throws Exception {
+  
+                      }
+                  });
+          // 使用SimpleObserver,解析返回Object类型的
+          JApiImpl.with(this)
+                  .post("/Login", SimpleParams.create())
+                  .compose(JRxCompose.obj(Login.class))
+                  .subscribe(new SimpleObserver<Login>() {
+                      @Override
+                      public void call(Login login) {
+  
+                      }
+                  });
+          // 使用ToastObserver,解析返回集合类型的
+          JApiImpl.with(this)
+                  .post("/Login", SimpleParams.create())
+                  .compose(JRxCompose.array(Login.class))
+                  .subscribe(new ToastObserver<List<Login>>() {
+                      @Override
+                      public void call(List<Login> logins) {
+  
+                      }
+                  });
 ```
 

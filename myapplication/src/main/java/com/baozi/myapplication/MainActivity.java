@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //不使用JApiImpl
         Disposable login = RetrofitUtil.getApi(JApi.class)
                 .get("/login", SimpleParams.create()
                         .putP("key1", 1)
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-
+        // 使用SimpleObserver,解析返回Object类型的
         JApiImpl.with(this)
                 .post("/Login", SimpleParams.create())
                 .compose(JRxCompose.obj(Login.class))
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-
+        // 使用ToastObserver,解析返回集合类型的
         JApiImpl.with(this)
                 .post("/Login", SimpleParams.create())
                 .compose(JRxCompose.array(Login.class))

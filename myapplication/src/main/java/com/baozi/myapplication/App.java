@@ -1,5 +1,6 @@
 package com.baozi.myapplication;
 
+import android.accounts.NetworkErrorException;
 import android.app.Application;
 import android.app.NotificationManager;
 
@@ -9,6 +10,8 @@ import com.baozi.linfeng.location.APICallBack;
 import com.baozi.linfeng.location.onExceptionListener;
 import com.baozi.linfeng.location.retrofit.ParseInfo;
 import com.google.gson.JsonElement;
+
+import java.net.SocketException;
 
 public class App extends Application {
     @Override
@@ -24,6 +27,15 @@ public class App extends Application {
         NetWorkManager.setExceptionListener(new onExceptionListener() {
             @Override
             public String onError(Throwable throwable) {
+                if (throwable instanceof NullPointerException) {
+
+                }
+                if (throwable instanceof NetworkErrorException) {
+
+                }
+                if (throwable instanceof SocketException) {
+
+                }
                 return null;
             }
         });
