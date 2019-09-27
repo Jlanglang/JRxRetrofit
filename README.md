@@ -29,14 +29,14 @@ NetWorkManager.init(String baseUrl, Application context)
 ```
 
  NetWorkManager.addParseInfo(
-                new RxParseInfo("code", "data", "msg", "200") //200的意思是成功的code.
+                new ParseInfo("code", "data", "msg", "200") //200的意思是成功的code.
         );
 
 ```
 
-RxParseInfo
+ParseInfo
 ```
-public RxParseInfo(String codeKey, String dataKey, String msgKey, String successCode) {
+public ParseInfo(String codeKey, String dataKey, String msgKey, String successCode) {
         this.codeKey = codeKey;
         this.dataKey = dataKey;
         this.msgKey = msgKey;
@@ -45,7 +45,7 @@ public RxParseInfo(String codeKey, String dataKey, String msgKey, String success
     ...
 ```
 
-RxParseInfo等价于你的basebean的格式是.也就是接口返回规则
+ParseInfo等价于你的basebean的格式是.也就是接口返回规则
 ```
 class BaseBean<T>{
   String code;
@@ -56,13 +56,13 @@ class BaseBean<T>{
 
 ```
 
-但是此框架,不需要BaseBean.只需要添加RxParseInfo.对应你的接口规则即可
+但是此框架,不需要BaseBean.只需要添加ParseInfo.对应你的接口规则即可
 
 
 
 # 如何判断接口请求成功的
 
-RxParseInfo 里默认通过判断上面的`successCode`与返回的`codeKey`的值进行比较的
+ParseInfo 里默认通过判断上面的`successCode`与返回的`codeKey`的值进行比较的
 
 ```
  public boolean isSuccess(JsonObject asJsonObject) {
@@ -77,7 +77,7 @@ RxParseInfo 里默认通过判断上面的`successCode`与返回的`codeKey`的�
 # 如何自定义请求成功判断
 使用setCheckSuccess().非必须.主要是为了扩展.
 ```
-new RxParseInfo("code", "data", "msg", "200")
+new ParseInfo("code", "data", "msg", "200")
  .setCheckSuccess(new RxParseInfo.CheckSuccess() {
                     @Override
                     public boolean isSuccess(JsonObject asJsonObject) {
