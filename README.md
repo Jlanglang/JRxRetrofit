@@ -120,12 +120,112 @@ public class App extends Application {
                 return JSONFactory.getValue(jsonElement, "message");
             }
         });
-        NetWorkManager.setOpenApiException(true);
     }
 }
 
+# 异常的处理逻辑
 
 ```
+        String errorMsg = null;
+                    //通过code获取注册的接口回调.
+                    APICallBack apiCallback = NetWorkManager.getApiCallback();
+                    if (apiCallback != null) {
+                        String callbackMsg = apiCallback.callback(code, response);
+                        if (!TextUtils.isEmpty(callbackMsg)) {
+                            errorMsg = callbackMsg;
+                        }
+                    }
+                    //如果callback不处理,则抛出服务器返回msg信息
+                    if (TextUtils.isEmpty(errorMsg)) {
+                        errorMsg = msg;
+                    }
+                    //抛出异常,走到onError.
+                    throw new APIException(code, errorMsg);
+```
+
+# 异常消息处理
+这里写了一个枚举.用来处理异常消息.
+```
+public enum JErrorEnum implements Consumer<Throwable> {
+    normal(0), toast(1);
+
+    private int type;
+
+    JErrorEnum(int type) {
+        this.type = type;
+    }
+
+    public static void normal(Throwable throwable) {
+        normal.accept(throwable);
+    }
+
+    public static void toast(Throwable throwable) {
+        toast.accept(throwable);
+    }
+
+    @Override
+    public void accept(Throwable throwable) {
+        String errMsg = "";
+        Class<? extends Throwable> throwableClass = throwable.getClass();
+        //处理Api自定义异常处理,请求是成功的,如果需要特殊处理,使用APICallBack
+        if (throwableClass.equals(APIException.class)) {
+            errMsg = throwable.getMessage();
+        }
+        //处理error异常,http异常
+        onExceptionListener exceptionListener = NetWorkManager.getExceptionListener();
+        if (exceptionListener != null) {
+            errMsg = exceptionListener.onError(throwable);
+        }
+        if (type == 1 && !TextUtils.isEmpty(errMsg)) {
+            Toast.makeText(NetWorkManager.getContext(), errMsg, Toast.LENGTH_SHORT).show();
+        }
+    }
+}
+```
+### 你可以用以下几种方式使用:
+
+#### SimpleObserver
+
+`normal`默认只处理异常逻辑,不会弹消息
+```
+ @Override
+  public void onError(Throwable e) {
+     JErrorEnum.normal(e);
+ }
+```
+
+
+#### ToastObserver
+
+`toast`会弹消息
+```
+ @Override
+  public void onError(Throwable e) {
+     JErrorEnum.toast(e);
+ }
+```
+
+#### 直接用
+```
+    Disposable subscribe = JApiImpl.with(this)
+                .get("", SimpleParams.create())
+                .compose(JRxCompose.obj(Login.class))
+                .subscribe(login1 -> {
+
+                }, JErrorEnum.toast);
+```
+如果不使用`JErrorEnum`的话.下面的设置就会失效,注意一个请求内不要重复使用哦.
+# 设置全局异常统一回调
+```
+   NetWorkManager.setExceptionListener(new onExceptionListener() {
+            @Override
+            public String onError(Throwable throwable) {
+                return null;
+            }
+        });
+```
+
+
 # 简单例子:
 
 ```
@@ -143,7 +243,7 @@ public class App extends Application {
                       public void accept(String s) throws Exception {
   
                       }
-                  });
+                  }, JErrorEnum.toast);
           // 使用SimpleObserver,解析返回Object类型的
           JApiImpl.with(this)
                   .post("/Login", SimpleParams.create())
