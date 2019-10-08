@@ -73,9 +73,9 @@ public class RetrofitUtil {
         private static Retrofit getRetrofit() {
             OkHttpClient.Builder client = new OkHttpClient.Builder()
                     //拦截并设置缓存
-                    .addNetworkInterceptor(new CacheInterceptor())
+                    .addNetworkInterceptor(new GetCacheInterceptor())
                     //拦截并设置缓存
-                    .addInterceptor(new CacheInterceptor())
+                    .addInterceptor(new GetCacheInterceptor())
                     .cache(new Cache(mContext.getCacheDir(), 10240 * 1024));
             // 设置代理
             if (NetWorkManager.getProxy() != null) {

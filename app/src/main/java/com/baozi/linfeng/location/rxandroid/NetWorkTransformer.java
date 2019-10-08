@@ -17,6 +17,9 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -61,14 +64,13 @@ public class NetWorkTransformer implements ObservableTransformer<String, String>
                     //通过code获取注册的接口回调.
                     APICallBack apiCallback = NetWorkManager.getApiCallback();
                     if (apiCallback != null) {
-                        String callbackMsg = apiCallback.callback(code, response);
+                        String callbackMsg = apiCallback.callback(code, msg, response);
                         if (!TextUtils.isEmpty(callbackMsg)) {
                             errorMsg = callbackMsg;
                         }
                     }
-
-                    //如果callback不处理,并打开isOpenApiException,则抛出服务器返回msg信息
-                    if (TextUtils.isEmpty(errorMsg) && NetWorkManager.isOpenApiException()) {
+                    //如果callback不处理,则抛出服务器返回msg信息
+                    if (TextUtils.isEmpty(errorMsg)) {
                         errorMsg = msg;
                     }
                     //抛出异常,走到onError.

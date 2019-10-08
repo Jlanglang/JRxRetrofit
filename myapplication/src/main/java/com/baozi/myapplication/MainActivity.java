@@ -10,17 +10,15 @@ import com.baozi.linfeng.location.APICallBack;
 import com.baozi.linfeng.location.SimpleParams;
 import com.baozi.linfeng.location.retrofit.JApi;
 import com.baozi.linfeng.location.retrofit.JApiImpl;
-import com.baozi.linfeng.location.retrofit.ParseInfo;
 import com.baozi.linfeng.location.retrofit.RetrofitUtil;
+import com.baozi.linfeng.location.rxandroid.JErrorEnum;
 import com.baozi.linfeng.location.rxandroid.JRxCompose;
 import com.baozi.linfeng.location.rxandroid.SimpleObserver;
 import com.baozi.linfeng.location.rxandroid.ToastObserver;
 import com.baozi.myapplication.bean.Login;
-import com.google.gson.JsonElement;
 
 import java.util.List;
 
-import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
@@ -65,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+        Disposable subscribe = JApiImpl.with(this)
+                .get("", SimpleParams.create())
+                .compose(JRxCompose.obj(Login.class))
+                .subscribe(login1 -> {
+
+                }, JErrorEnum.toast);
     }
 }
 

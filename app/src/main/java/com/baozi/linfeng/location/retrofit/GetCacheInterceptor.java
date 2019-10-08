@@ -12,7 +12,7 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class CacheInterceptor implements Interceptor {
+public class GetCacheInterceptor implements Interceptor {
     @Override
     @NonNull
     public Response intercept(@NonNull Chain chain) throws IOException {
@@ -40,7 +40,6 @@ public class CacheInterceptor implements Interceptor {
             //...如果无网络,则根据@headers注解的设置进行缓存.
         }
         Response response = chain.proceed(request);
-//                    Log.i("httpInterceptor", cacheControl);
         return response.newBuilder()
                 .header("Cache-Control", cacheControl)
                 .removeHeader("Pragma")

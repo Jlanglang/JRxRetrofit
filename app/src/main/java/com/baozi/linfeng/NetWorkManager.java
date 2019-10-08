@@ -42,8 +42,6 @@ public final class NetWorkManager {
 
     public static HashSet<ParseInfo> rxParseInfoSet = new HashSet<>();
 
-    private static boolean mOpenApiException;
-
     private static Proxy proxy; // 代理
 
 
@@ -131,13 +129,13 @@ public final class NetWorkManager {
         return Instance.key;
     }
 
-    public static boolean isOpenApiException() {
-        return mOpenApiException;
-    }
-
-    public static void setOpenApiException(boolean openApiException) {
-        mOpenApiException = openApiException;
-    }
+//    public static boolean isOpenApiException() {
+//        return mOpenApiException;
+//    }
+//
+//    public static void setOpenApiException(boolean openApiException) {
+//        mOpenApiException = openApiException;
+//    }
 
     public static Application getContext() {
         return mContext;
