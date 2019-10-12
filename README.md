@@ -6,7 +6,7 @@
 # 依赖:
 
 ```
-  implementation 'com.github.Jlanglang:JRxRetrofit:1.0.3'
+  implementation 'com.github.Jlanglang:JRxRetrofit:1.0.4'
 ```
 根build.gradle里面添加
 ```
@@ -115,9 +115,12 @@ public class App extends Application {
         });
         NetWorkManager.setApiCallBack(new APICallBack() {
             @Override
-            public String callback(String code, String resultData) {
-                JsonElement jsonElement = JSONFactory.parseJson(resultData);
-                return JSONFactory.getValue(jsonElement, "message");
+            public String callback(String code, String msg, String resultData) {
+               if (code.equals("100")) {
+                    //跳转登陆页面
+                    return "登陆过期";
+                }
+                return msg;
             }
         });
     }
