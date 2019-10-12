@@ -49,7 +49,7 @@ public class JSONFactory {
         if (jsonElement.isJsonNull()) {
             return "";
         }
-        return jsonElement.toString();
+        return jsonElement.getAsString();
     }
 
 }

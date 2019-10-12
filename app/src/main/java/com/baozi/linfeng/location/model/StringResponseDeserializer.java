@@ -15,9 +15,9 @@ public class StringResponseDeserializer implements JsonDeserializer<String> {
         if (json.isJsonNull()) {
             return "";
         }
-        if (json.isJsonArray() || json.isJsonObject()) {
-            return json.toString();
-        }
+//        if (json.isJsonArray() || json.isJsonObject()) {
+//            return json.getas();
+//        }
         return json.getAsString();
     }
 }
