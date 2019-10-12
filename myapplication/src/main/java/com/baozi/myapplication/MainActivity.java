@@ -38,9 +38,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String a="{\"code\":\"0\",\"data\":{\"regFrom\":\"mhealth\",\"uacId\":\"6002354038\",\"userId\":6002351370,\"ut\":\"SU14GWSa+9O9yBluJhC2phkLEbAj26KJdUvknt43eCVc4WEFGgTPJhDF2+wnjcqbZ2K+d+DA+vMWpzShc9ahDw==\"},\"msg\":\"成功\",\"success\":true}";
+        String a = "{\"code\":\"0\",\"data\":{\"regFrom\":\"mhealth\",\"uacId\":\"6002354038\",\"userId\":6002351370,\"ut\":\"SU14GWSa+9O9yBluJhC2phkLEbAj26KJdUvknt43eCVc4WEFGgTPJhDF2+wnjcqbZ2K+d+DA+vMWpzShc9ahDw==\"},\"msg\":\"成功\",\"success\":true}";
         JsonElement jsonElement = JSONFactory.parseJson(a);
         String code = JSONFactory.getValue(jsonElement, "code");
+        String data = JSONFactory.getValue(jsonElement, "data");
+        String msg = JSONFactory.getValue(jsonElement, "msg");
 //        //不使用JApiImpl
 //        Disposable login = RetrofitUtil.getApi(JApi.class)
 //                .get("/login", SimpleParams.create()

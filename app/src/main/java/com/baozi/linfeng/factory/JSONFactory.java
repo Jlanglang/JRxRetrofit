@@ -49,6 +49,9 @@ public class JSONFactory {
         if (jsonElement.isJsonNull()) {
             return "";
         }
+        if (jsonElement.isJsonArray() || jsonElement.isJsonObject()) {
+            return jsonElement.toString();
+        }
         return jsonElement.getAsString();
     }
 
