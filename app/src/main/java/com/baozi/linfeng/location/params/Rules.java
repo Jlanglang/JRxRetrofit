@@ -64,7 +64,7 @@ public class Rules {
         return this;
     }
 
-    Object getData() {
+    public Object getData() {
         return data;
     }
 
@@ -79,7 +79,7 @@ public class Rules {
         return b;
     }
 
-     boolean valueCheck() {
+    boolean valueCheck() {
         if (type == Type.Str) {
             String str = (String) data;
             if (isRequire && TextUtils.isEmpty(str)) {
