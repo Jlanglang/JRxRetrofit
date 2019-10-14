@@ -1,6 +1,6 @@
 package com.baozi.linfeng.location.retrofit;
 
-import com.baozi.linfeng.location.SimpleParams;
+import com.baozi.linfeng.location.params.SimpleParams;
 
 import java.util.HashMap;
 

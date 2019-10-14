@@ -1,36 +1,18 @@
 package com.baozi.myapplication;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 
-import com.baozi.linfeng.NetWorkManager;
 import com.baozi.linfeng.factory.JSONFactory;
-import com.baozi.linfeng.location.APICallBack;
-import com.baozi.linfeng.location.SimpleParams;
-import com.baozi.linfeng.location.retrofit.JApi;
+import com.baozi.linfeng.location.params.FormParams;
+import com.baozi.linfeng.location.params.Rules;
+import com.baozi.linfeng.location.params.SimpleParams;
 import com.baozi.linfeng.location.retrofit.JApiImpl;
-import com.baozi.linfeng.location.retrofit.RetrofitUtil;
-import com.baozi.linfeng.location.rxandroid.DialogTransformer;
-import com.baozi.linfeng.location.rxandroid.JErrorEnum;
 import com.baozi.linfeng.location.rxandroid.JRxCompose;
 import com.baozi.linfeng.location.rxandroid.SimpleObserver;
-import com.baozi.linfeng.location.rxandroid.ToastObserver;
 import com.baozi.myapplication.bean.Login;
 import com.google.gson.JsonElement;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.ObservableTransformer;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,16 +47,25 @@ public class MainActivity extends AppCompatActivity {
 //
 //                    }
 //                });
-        // 使用SimpleObserver,解析返回Object类型的
-//        JApiImpl.with(this)
-//                .post("/Login", SimpleParams.create())
-//                .compose(JRxCompose.obj(Login.class))
-//                .subscribe(new SimpleObserver<Login>() {
-//                    @Override
-//                    public void call(Login login) {
-//
-//                    }
-//                });
+//         使用SimpleObserver,解析返回Object类型的
+        FormParams params = FormParams.create()
+                .putP("key", Rules.require(null))
+                .putP("data", Rules.normal(null));
+
+        if (!params.check(this)) {
+            return;
+        }
+        JApiImpl.with(this)
+                .post("/Login", params
+                )
+                .compose(JRxCompose.obj(Login.class))
+                .subscribe(new SimpleObserver<Login>() {
+                    @Override
+                    public void call(Login login) {
+
+                    }
+                });
+
 //        // 使用ToastObserver,解析返回集合类型的
 //        JApiImpl.with(this)
 //                .post("/Login", SimpleParams.create())
