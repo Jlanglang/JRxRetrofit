@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 
 import com.baozi.linfeng.factory.JSONFactory;
-import com.baozi.linfeng.location.params.FormParams;
 import com.baozi.linfeng.location.params.Rules;
 import com.baozi.linfeng.location.params.SimpleParams;
 import com.baozi.linfeng.location.retrofit.JApiImpl;
@@ -48,10 +47,13 @@ public class MainActivity extends AppCompatActivity {
 //                    }
 //                });
 //         使用SimpleObserver,解析返回Object类型的
-        FormParams params = FormParams.create()
+        SimpleParams params = SimpleParams.create()
                 .putP("key", Rules.require(3).values(234, 3, 4, 5, 6).msg("请输入正确的key"))
+                .putP("a", 123)
+                .putP("b", 123)
+                .putP("c", 123)
                 .putP("data", Rules.normal("23").regex("正则").msg("正则校验失败"))
-                .putP("data1", Rules.normal(3).range(1, 0).msg("data1必须大于1,小于3"))
+                .putP("data1", Rules.normal(0.5).min(1).msg("data1必须大于1"))
                 .putP("data2", Rules.normal(4).max(10).msg("data2必须小于10"))
                 .putP("data3", Rules.normal(5));
 
