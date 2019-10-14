@@ -61,7 +61,7 @@ public class ParseInfo {
         if (checkSuccess != null) {
             return checkSuccess.isSuccess(jsonObject);
         }
-        String code = jsonObject.get(codeKey).toString();
+        String code = jsonObject.get(codeKey).getAsString();
         return TextUtils.equals(code, successCode);
     }
 
