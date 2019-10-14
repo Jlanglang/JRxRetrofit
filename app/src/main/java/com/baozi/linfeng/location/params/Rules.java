@@ -15,14 +15,15 @@ public class Rules {
     private CustomCheck customCheck;
     private Type type = Type.Str;
     private String msg = "参数校验失败";
-    private String[] values;
-    private double min, max;
+    private Object[] values;
+    private Double min, max;
     private String reg;
 
     private Object data;
     private boolean isRequire = false;
 
     public Rules(Object data) {
+        this.data = data;
     }
 
     public static Rules normal(Object data) {
@@ -43,7 +44,7 @@ public class Rules {
         return this;
     }
 
-    public Rules values(String... values) {
+    public Rules values(Object... values) {
         this.values = values;
         return this;
     }
@@ -64,6 +65,16 @@ public class Rules {
         return this;
     }
 
+    public Rules max(double max) {
+        this.max = max;
+        return this;
+    }
+
+    public Rules min(double min) {
+        this.min = min;
+        return this;
+    }
+
     public Object getData() {
         return data;
     }
@@ -80,24 +91,31 @@ public class Rules {
     }
 
     boolean valueCheck() {
+        //是否等于预设值
+        if (values != null) {
+            for (Object s : values) {
+                if (s.equals(data)) {
+                    return true;
+                }
+            }
+        }
         if (type == Type.Str) {
             String str = (String) data;
             if (isRequire && TextUtils.isEmpty(str)) {
                 return false;
             }
-            //如果没有值,或者没有正则,无需校验,直接返回
-            if (values != null) {
-                for (String s : values) {
-                    if (s.equals(str)) {
-                        return false;
-                    }
-                }
-            }
             return str.matches(reg);
         }
         if (type == Type.Num) {
             double numData = (double) data;
-            return numData > min && numData < max;
+            boolean minOk = true, maxOk = true;
+            if (min != null) {
+                minOk = numData > min;
+            }
+            if (max != null) {
+                maxOk = numData < max;
+            }
+            return minOk && maxOk;
         }
         if (type == Type.Obj) {
             return isRequire && data != null;
