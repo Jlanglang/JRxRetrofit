@@ -6,7 +6,7 @@
 # 依赖:
 
 ```
-  implementation 'com.github.Jlanglang:JRxRetrofit:1.0.4'
+  implementation 'com.github.Jlanglang:JRxRetrofit:1.0.6'
 ```
 根build.gradle里面添加
 ```
