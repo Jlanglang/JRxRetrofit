@@ -85,7 +85,7 @@ public class RetrofitUtil {
             for (Interceptor i : NetWorkManager.mInterceptors) {
                 client.addInterceptor(i);
             }
-            if (BuildConfig.DEBUG) {
+            if (NetWorkManager.isDebug) {
                 HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
                 interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
                 client.addInterceptor(interceptor);

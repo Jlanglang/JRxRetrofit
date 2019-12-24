@@ -18,7 +18,7 @@ import okhttp3.Interceptor;
  * 网络管理类
  */
 public final class NetWorkManager {
-
+    public static boolean isDebug = false;
     private static int DEFAULT_TIME_OUT = 30;
     private static int DEFAULT_RETRY = 5;
 
@@ -55,6 +55,13 @@ public final class NetWorkManager {
     public static void init(String baseUrl, Application context) {
         mContext = context;
         RetrofitUtil.init(baseUrl, context);
+    }
+
+    /**
+     * 打开debug
+     */
+    public static void isDebug(boolean b) {
+        isDebug = b;
     }
 
     public static void setDefaultTimeOut(int defaultTimeOut) {
