@@ -9,9 +9,12 @@ import com.baozi.linfeng.location.params.Rules;
 import com.baozi.linfeng.location.params.SimpleParams;
 import com.baozi.linfeng.location.retrofit.JApiImpl;
 import com.baozi.linfeng.location.rxandroid.JRxCompose;
+import com.baozi.linfeng.location.rxandroid.NetWorkTransformer;
 import com.baozi.linfeng.location.rxandroid.SimpleObserver;
 import com.baozi.myapplication.bean.Login;
 import com.google.gson.JsonElement;
+
+import io.reactivex.functions.Consumer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,11 +22,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String a = "{\"code\":\"0\",\"data\":{\"regFrom\":\"mhealth\",\"uacId\":\"6002354038\",\"userId\":6002351370,\"ut\":\"SU14GWSa+9O9yBluJhC2phkLEbAj26KJdUvknt43eCVc4WEFGgTPJhDF2+wnjcqbZ2K+d+DA+vMWpzShc9ahDw==\"},\"msg\":\"成功\",\"success\":true}";
-        JsonElement jsonElement = JSONFactory.parseJson(a);
-        String code = JSONFactory.getValue(jsonElement, "code");
-        String data = JSONFactory.getValue(jsonElement, "data");
-        String msg = JSONFactory.getValue(jsonElement, "msg");
+        JApiImpl.getApi().get(
+                "https://open.uczzd.cn/openiflow/openapi/v3/channels?app=haibao-iflow&access_token=1577165899199-bd5d18aad8dd8c7773a5395fe06b6c0c-05b8595b72f601448a0ab69095c252df&nt=99&imei=869454038266234&dn=6a03b3c0ce452a27&fr=android&oaid=&ve=1.0",
+                SimpleParams.create()
+        ).compose(new NetWorkTransformer()).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                s.toString();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                throwable.toString();
+            }
+        });
+//        String a = "{\"code\":\"0\",\"data\":{\"regFrom\":\"mhealth\",\"uacId\":\"6002354038\",\"userId\":6002351370,\"ut\":\"SU14GWSa+9O9yBluJhC2phkLEbAj26KJdUvknt43eCVc4WEFGgTPJhDF2+wnjcqbZ2K+d+DA+vMWpzShc9ahDw==\"},\"msg\":\"成功\",\"success\":true}";
+//        JsonElement jsonElement = JSONFactory.parseJson(a);
+//        String code = JSONFactory.getValue(jsonElement, "code");
+//        String data = JSONFactory.getValue(jsonElement, "data");
+//        String msg = JSONFactory.getValue(jsonElement, "msg");
 //        //不使用JApiImpl
 //        Disposable login = RetrofitUtil.getApi(JApi.class)
 //                .get("/login", SimpleParams.create()
@@ -47,29 +64,26 @@ public class MainActivity extends AppCompatActivity {
 //                    }
 //                });
 //         使用SimpleObserver,解析返回Object类型的
-        SimpleParams params = SimpleParams.create()
-                .putP("key", Rules.require(3).values(234, 3, 4, 5, 6).msg("请输入正确的key"))
-                .putP("a", 123)
-                .putP("b", 123)
-                .putP("c", 123)
-                .putP("data", Rules.normal("23").regex("正则").msg("正则校验失败"))
-                .putP("data1", Rules.normal(0.5).min(1).msg("data1必须大于1"))
-                .putP("data2", Rules.normal(4).max(10).msg("data2必须小于10"))
-                .putP("data3", Rules.normal(5));
-
-        if (!params.check(this)) {
-            return;
-        }
-        JApiImpl.with(this)
-                .post("/Login", params
-                )
-                .compose(JRxCompose.obj(Login.class))
-                .subscribe(new SimpleObserver<Login>() {
-                    @Override
-                    public void call(Login login) {
-
-                    }
-                });
+//        SimpleParams params = SimpleParams.create()
+//                .putP("key", Rules.require(9).max(10).msg("key必须小于10"))
+//                .putP("a", 123)
+//                .putP("b", 234)
+//                .putP("c", 123)
+//                .putP("data1", Rules.normal(2).min(1).msg("data1必须大于1"))
+//                .putP("data2", Rules.normal(4).max(10).msg("data2必须小于10"))
+//                .putP("data3", Rules.normal(5));
+//        if (!params.check(this)) {
+//            return;
+//        }
+//        JApiImpl.with(this)
+//                .post("/Login", params)
+//                .compose(JRxCompose.obj(Login.class))
+//                .subscribe(new SimpleObserver<Login>() {
+//                    @Override
+//                    public void call(Login login) {
+//
+//                    }
+//                });
 
 //        // 使用ToastObserver,解析返回集合类型的
 //        JApiImpl.with(this)

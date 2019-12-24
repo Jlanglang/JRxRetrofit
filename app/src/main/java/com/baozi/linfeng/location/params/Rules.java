@@ -4,16 +4,16 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+
 //校验类
 public class Rules {
 
-
     public enum Type {
-        Str, Num, Obj
+        str, num, obj
     }
 
     private CustomCheck customCheck;
-    private Type type = Type.Str;
+    private Type type = Type.str;
     private String msg = "参数校验失败";
     private Object[] values;
     private Double min, max;
@@ -24,6 +24,16 @@ public class Rules {
 
     public Rules(Object data) {
         this.data = data;
+        if (data instanceof String) {
+            type = Type.str;
+        } else if (data instanceof Double ||
+                data instanceof Float ||
+                data instanceof Byte ||
+                data instanceof Integer) {
+            type = Type.num;
+        } else {
+            type = Type.obj;
+        }
     }
 
     public static Rules normal(Object data) {
@@ -79,7 +89,7 @@ public class Rules {
         return data;
     }
 
-    boolean check(Context context) {
+    public boolean check(Context context) {
         if (customCheck != null) {
             return customCheck.call(data);
         }
@@ -90,24 +100,24 @@ public class Rules {
         return b;
     }
 
-    boolean valueCheck() {
+    public boolean valueCheck() {
         //是否等于预设值
         if (values != null) {
             for (Object s : values) {
                 if (s.equals(data)) {
-                    return true;
+                    return false;
                 }
             }
         }
-        if (type == Type.Str) {
+        if (type == Type.str) {
             String str = (String) data;
             if (isRequire && TextUtils.isEmpty(str)) {
                 return false;
             }
             return str.matches(reg);
         }
-        if (type == Type.Num) {
-            double numData = (double) data;
+        if (type == Type.num) {
+            double numData = Double.parseDouble(data.toString());
             boolean minOk = true, maxOk = true;
             if (min != null) {
                 minOk = numData > min;
@@ -117,7 +127,7 @@ public class Rules {
             }
             return minOk && maxOk;
         }
-        if (type == Type.Obj) {
+        if (type == Type.obj) {
             return isRequire && data != null;
         }
         return true;
