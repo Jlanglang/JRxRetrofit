@@ -72,7 +72,7 @@ public class JApiImpl implements JApi, LifecycleObserver, ObservableTransformer<
 
     @Override
     public Observable<String> get(String url, SimpleParams params) {
-        return getApi().post(url, params).compose(this);
+        return getApi().get(url, params).compose(this);
     }
 
 
