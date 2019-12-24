@@ -22,20 +22,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        JApiImpl.getApi().get(
-                "https://open.uczzd.cn/openiflow/openapi/v3/channels?app=haibao-iflow&access_token=1577165899199-bd5d18aad8dd8c7773a5395fe06b6c0c-05b8595b72f601448a0ab69095c252df&nt=99&imei=869454038266234&dn=6a03b3c0ce452a27&fr=android&oaid=&ve=1.0",
-                SimpleParams.create()
-        ).compose(new NetWorkTransformer()).subscribe(new Consumer<String>() {
-            @Override
-            public void accept(String s) throws Exception {
-                s.toString();
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) throws Exception {
-                throwable.toString();
-            }
-        });
 //        String a = "{\"code\":\"0\",\"data\":{\"regFrom\":\"mhealth\",\"uacId\":\"6002354038\",\"userId\":6002351370,\"ut\":\"SU14GWSa+9O9yBluJhC2phkLEbAj26KJdUvknt43eCVc4WEFGgTPJhDF2+wnjcqbZ2K+d+DA+vMWpzShc9ahDw==\"},\"msg\":\"成功\",\"success\":true}";
 //        JsonElement jsonElement = JSONFactory.parseJson(a);
 //        String code = JSONFactory.getValue(jsonElement, "code");
