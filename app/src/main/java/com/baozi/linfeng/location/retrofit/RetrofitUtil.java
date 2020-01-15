@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.text.TextUtils;
 
+import com.baozi.linfeng.factory.SSLSocketClient;
 import com.linfeng.rx_retrofit_network.BuildConfig;
 import com.baozi.linfeng.NetWorkManager;
 import com.baozi.linfeng.converter.GsonConverterFactory;
@@ -90,6 +91,7 @@ public class RetrofitUtil {
                 interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
                 client.addInterceptor(interceptor);
             }
+            client = NetWorkManager.flatMapClient(client);
             return new Retrofit.Builder()
                     .client(client.build())
                     .baseUrl(API_HOST)
