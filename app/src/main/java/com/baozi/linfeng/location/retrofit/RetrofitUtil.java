@@ -76,8 +76,10 @@ public class RetrofitUtil {
                     //拦截并设置缓存
                     .addNetworkInterceptor(new GetCacheInterceptor())
                     //拦截并设置缓存
-                    .addInterceptor(new GetCacheInterceptor())
-                    .cache(new Cache(mContext.getCacheDir(), 10240 * 1024));
+                    .addInterceptor(new GetCacheInterceptor());
+            if (mContext != null) {
+                client.cache(new Cache(mContext.getCacheDir(), 10240 * 1024));
+            }
             // 设置代理
             if (NetWorkManager.getProxy() != null) {
                 client.proxy(NetWorkManager.getProxy());
