@@ -93,7 +93,11 @@ public class RetrofitUtil {
                 interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
                 client.addInterceptor(interceptor);
             }
-            client = NetWorkManager.flatMapClient(client);
+            try {
+                client = NetWorkManager.getFlagMap().apply(client);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return new Retrofit.Builder()
                     .client(client.build())
                     .baseUrl(API_HOST)
