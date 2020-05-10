@@ -34,8 +34,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
  * Created by Sunflower on 2015/11/4.
  */
 public class RetrofitUtil {
-
-
     /**
      * 服务器地址
      */
@@ -99,80 +97,6 @@ public class RetrofitUtil {
         }
     }
 
-    /**
-     * 此方法获取的bitmap为原始大小,图片文件过大可能造成oom
-     *
-     * @param images 图片集合
-     */
-    public static HashMap<String, RequestBody> creatRequestBodyImagesFiles(List<String> images) {
-        if (images == null) {
-            return null;
-        }
-        HashMap<String, RequestBody> photoRequestMap = new HashMap<>();
-        int size = images.size();
-        for (int i = 0; i < size; i++) {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            Bitmap bitmap = BitmapFactory.decodeFile(images.get(i));
-            //转化为二进制流数组
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
-            bitmap.recycle();
-            photoRequestMap.put("file" + i + "\";filename=\"" +
-                    System.currentTimeMillis(), RequestBody.create(MediaType.parse("multipart/form-data"), byteArray));
-        }
-        return photoRequestMap;
-    }
-
-    /**
-     * 建议调用此方法前,先将bitmap压缩.
-     *
-     * @param images 图片集合
-     */
-    public static HashMap<String, RequestBody> creatRequestBodyBitmap(List<Bitmap> images) {
-        if (images == null) {
-            return null;
-        }
-        HashMap<String, RequestBody> photoRequestMap = new HashMap<>();
-        int size = images.size();
-        for (int i = 0; i < size; i++) {
-            Bitmap bitmap = images.get(i);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            //转化为二进制流数组
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
-            photoRequestMap.put("file" + i + "\";filename=\"" +
-                    System.currentTimeMillis(), RequestBody.create(MediaType.parse("multipart/form-data"), byteArray));
-        }
-        return photoRequestMap;
-    }
-
-    private RequestBody buildMultipartFormRequestBody(List<File> files, String filesKey, HashMap<String, String> params) {
-        if (params == null) {
-            params = new HashMap<>();
-        }
-        MultipartBody.Builder builder = new MultipartBody.Builder();
-        Set<String> strings = params.keySet();
-        for (String key : strings) {
-            builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + key + "\""),
-                    RequestBody.create(null, params.get(key)));
-        }
-        if (files == null) {
-            files = new ArrayList<>();
-        }
-        int size = files.size();
-        if (size == 0) {
-            builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + filesKey + "\""),
-                    RequestBody.create(null, "[]"));
-        }
-        for (int i = 0; i < size; i++) {
-            //TODO 根据文件名设置contentType
-            builder.addPart(Headers.of("Content-Disposition",
-                    "form-data; name=\"" + filesKey + "\"; fileName=\"" + System.currentTimeMillis() + "\""),
-                    RequestBody.create(MediaType.parse("multipart/form-data"), files.get(i)));
-        }
-        return builder.build();
-
-    }
 
     /**
      * 判断网络是否打开

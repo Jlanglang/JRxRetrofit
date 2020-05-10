@@ -28,7 +28,7 @@ public class JsonArrayParesTransformer<T> implements ObservableTransformer<Strin
 
     @Override
     public ObservableSource<List<T>> apply(Observable<String> upstream) {
-        return upstream.compose(new NetWorkTransformer())
+        return upstream.compose(new NetStringTransformer())
                 .observeOn(Schedulers.computation())
                 .flatMap(s -> {
                     s = TextUtils.isEmpty(s) ? "[]" : s;

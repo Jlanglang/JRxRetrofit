@@ -46,7 +46,7 @@ public class JSONFactory {
             return null;
         }
         JsonElement jsonElement = json.getAsJsonObject().get(key);
-        if (jsonElement.isJsonNull()) {
+        if (jsonElement == null || jsonElement.isJsonNull()) {
             return "";
         }
         return jsonElement.toString();

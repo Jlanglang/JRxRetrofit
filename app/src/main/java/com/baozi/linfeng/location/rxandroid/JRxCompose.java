@@ -6,7 +6,7 @@ public class JRxCompose {
 
     // 正常的网络请求ObservableTransformer
     public static ObservableTransformer<String, String> normal() {
-        return NetWorkTransformer.instance();
+        return NetStringTransformer.instance();
     }
 
     // 简单的ObservableTransformer,没有网络请求的配置

@@ -1,4 +1,4 @@
-package com.baozi.linfeng.location.des;
+package com.baozi.linfeng.encrypt.des;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

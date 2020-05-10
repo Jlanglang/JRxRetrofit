@@ -2,7 +2,6 @@ package com.baozi.linfeng.converter;
 
 import android.support.annotation.NonNull;
 
-import com.baozi.linfeng.factory.EncodeDecodeFactory;
 import com.baozi.linfeng.factory.JSONFactory;
 
 import java.io.IOException;
@@ -27,7 +26,7 @@ public class GsonRequestBodyConverter<T> implements Converter<T, RequestBody> {
 
     @Override
     public RequestBody convert(@NonNull T value) throws IOException {
-        String json = EncodeDecodeFactory.encode(JSONFactory.toJson(value));
+        String json = JSONFactory.toJson(value);
         return RequestBody.create(MEDIA_TYPE, json);
     }
 }

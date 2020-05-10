@@ -30,14 +30,6 @@ public class JApiImpl implements JApi, LifecycleObserver, ObservableTransformer<
         return JApiImpl;
     }
 
-    public static JApiImpl with(Fragment fragment) {
-        return with(fragment.getLifecycle());
-    }
-
-    public static JApiImpl with(AppCompatActivity activity) {
-        return with(activity.getLifecycle());
-    }
-
     private Disposable disposable;
 
     @Override

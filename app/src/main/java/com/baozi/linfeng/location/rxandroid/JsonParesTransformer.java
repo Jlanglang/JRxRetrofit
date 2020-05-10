@@ -24,7 +24,7 @@ public class JsonParesTransformer<T> implements ObservableTransformer<String, T>
 
     @Override
     public ObservableSource<T> apply(Observable<String> upstream) {
-        return upstream.compose(new NetWorkTransformer())
+        return upstream.compose(new NetStringTransformer())
                 .observeOn(Schedulers.computation())
                 .flatMap(s -> Observable
                         .just(JSONFactory.fromJson(TextUtils.isEmpty(s) ? "{}" : s, zClass)))

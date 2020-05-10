@@ -3,11 +3,11 @@ package com.baozi.linfeng;
 
 import android.app.Application;
 
-import com.baozi.linfeng.factory.EncodeDecodeKey;
 import com.baozi.linfeng.location.APICallBack;
 import com.baozi.linfeng.location.onExceptionListener;
+import com.baozi.linfeng.location.retrofit.parse.IParse;
 import com.baozi.linfeng.location.retrofit.RetrofitUtil;
-import com.baozi.linfeng.location.retrofit.ParseInfo;
+import com.baozi.linfeng.location.retrofit.parse.NetStringParseInfo;
 
 import java.net.Proxy;
 import java.util.HashSet;
@@ -26,21 +26,13 @@ public final class NetWorkManager {
     /**
      * code状态码处理回调
      */
-    private static APICallBack apiExceptionCallBacks;
-    /**
-     * 私钥
-     */
-    private static String privateKey;
-    /**
-     * 公钥
-     */
-    private static String publicKey;
+    private static APICallBack apiCallBack;
 
     private static Application mContext;
 
     public static HashSet<Interceptor> mInterceptors = new HashSet<>();
 
-    public static HashSet<ParseInfo> rxParseInfoSet = new HashSet<>();
+    public static HashSet<IParse> rxParseInfoSet = new HashSet<>();
 
     private static boolean mOpenApiException;
 
@@ -75,17 +67,6 @@ public final class NetWorkManager {
         return DEFAULT_RETRY;
     }
 
-    /**
-     * 初始化密钥
-     *
-     * @param key1 私钥
-     * @param key2 公钥
-     */
-    public static void initKey(String key1, String key2) {
-        privateKey = key1;
-        publicKey = key2;
-    }
-
     public static void addInterceptor(Interceptor interceptor) {
         mInterceptors.add(interceptor);
     }
@@ -115,7 +96,7 @@ public final class NetWorkManager {
      * @type 保证唯一性
      */
     public static void setApiCallBack(APICallBack callBack) {
-        apiExceptionCallBacks = callBack;
+        apiCallBack = callBack;
     }
 
     /**
@@ -124,11 +105,7 @@ public final class NetWorkManager {
      * @return APIExceptionCallBack回调接口
      */
     public static APICallBack getApiCallback() {
-        return apiExceptionCallBacks;
-    }
-
-    public static EncodeDecodeKey getKey() {
-        return Instance.key;
+        return apiCallBack;
     }
 
     public static boolean isOpenApiException() {
@@ -149,22 +126,11 @@ public final class NetWorkManager {
     }
 
 
-    public static HashSet<ParseInfo> getParseInfo() {
+    public static HashSet<IParse> getParseInfo() {
         return rxParseInfoSet;
     }
 
-    public static void addParseInfo(ParseInfo parseInterceptor) {
+    public static void addParseInfo(NetStringParseInfo parseInterceptor) {
         rxParseInfoSet.add(parseInterceptor);
-    }
-
-    /**
-     * 加密对象单例
-     */
-    private static class Instance {
-        private static EncodeDecodeKey key = getKey();
-
-        private static EncodeDecodeKey getKey() {
-            return new EncodeDecodeKey(privateKey, publicKey);
-        }
     }
 }

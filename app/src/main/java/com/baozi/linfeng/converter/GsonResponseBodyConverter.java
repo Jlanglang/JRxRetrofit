@@ -2,7 +2,6 @@ package com.baozi.linfeng.converter;
 
 import android.support.annotation.NonNull;
 
-import com.baozi.linfeng.factory.EncodeDecodeFactory;
 import com.baozi.linfeng.factory.JSONFactory;
 
 import java.io.IOException;
@@ -30,7 +29,7 @@ final class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
     @Override
     public T convert(@NonNull ResponseBody value) throws IOException {
         try {
-            String json = EncodeDecodeFactory.decode(value.string());
+            String json = value.string();
             return JSONFactory.fromJson(json, type);
         } finally {
             value.close();
