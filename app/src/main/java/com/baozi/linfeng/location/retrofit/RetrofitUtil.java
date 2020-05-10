@@ -3,30 +3,17 @@ package com.baozi.linfeng.location.retrofit;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.text.TextUtils;
 
-import com.baozi.linfeng.factory.SSLSocketClient;
-import com.linfeng.rx_retrofit_network.BuildConfig;
 import com.baozi.linfeng.NetWorkManager;
 import com.baozi.linfeng.converter.GsonConverterFactory;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 
 import okhttp3.Cache;
-import okhttp3.Headers;
 import okhttp3.Interceptor;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -86,15 +73,10 @@ public class RetrofitUtil {
             for (Interceptor i : NetWorkManager.mInterceptors) {
                 client.addInterceptor(i);
             }
-            if (NetWorkManager.isDebug) {
+            if (NetWorkManager.isDebug()) {
                 HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
                 interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
                 client.addInterceptor(interceptor);
-            }
-            try {
-                client = NetWorkManager.getFlagMap().apply(client);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
             return new Retrofit.Builder()
                     .client(client.build())
