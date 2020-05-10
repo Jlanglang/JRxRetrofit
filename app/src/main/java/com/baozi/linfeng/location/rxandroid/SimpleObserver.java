@@ -1,7 +1,6 @@
 package com.baozi.linfeng.location.rxandroid;
 
 
-
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
@@ -45,6 +44,7 @@ public abstract class SimpleObserver<T> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
+        JErrorEnum.normal(e);
     }
 
     @Override

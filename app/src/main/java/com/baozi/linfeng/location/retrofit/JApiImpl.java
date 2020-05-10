@@ -6,9 +6,8 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
-import com.baozi.linfeng.location.SimpleParams;
+import com.baozi.linfeng.location.params.SimpleParams;
 
 import java.util.HashMap;
 
@@ -65,7 +64,7 @@ public class JApiImpl implements JApi, LifecycleObserver, ObservableTransformer<
 
     @Override
     public Observable<String> get(String url, SimpleParams params) {
-        return getApi().post(url, params).compose(this);
+        return getApi().get(url, params).compose(this);
     }
 
 

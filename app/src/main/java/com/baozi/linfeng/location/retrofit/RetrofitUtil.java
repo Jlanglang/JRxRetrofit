@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.text.TextUtils;
 
+import com.baozi.linfeng.factory.SSLSocketClient;
 import com.linfeng.rx_retrofit_network.BuildConfig;
 import com.baozi.linfeng.NetWorkManager;
 import com.baozi.linfeng.converter.GsonConverterFactory;
@@ -71,10 +72,12 @@ public class RetrofitUtil {
         private static Retrofit getRetrofit() {
             OkHttpClient.Builder client = new OkHttpClient.Builder()
                     //拦截并设置缓存
-                    .addNetworkInterceptor(new CacheInterceptor())
+                    .addNetworkInterceptor(new GetCacheInterceptor())
                     //拦截并设置缓存
-                    .addInterceptor(new CacheInterceptor())
-                    .cache(new Cache(mContext.getCacheDir(), 10240 * 1024));
+                    .addInterceptor(new GetCacheInterceptor());
+            if (mContext != null) {
+                client.cache(new Cache(mContext.getCacheDir(), 10240 * 1024));
+            }
             // 设置代理
             if (NetWorkManager.getProxy() != null) {
                 client.proxy(NetWorkManager.getProxy());
@@ -83,10 +86,15 @@ public class RetrofitUtil {
             for (Interceptor i : NetWorkManager.mInterceptors) {
                 client.addInterceptor(i);
             }
-            if (BuildConfig.DEBUG) {
+            if (NetWorkManager.isDebug) {
                 HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
                 interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
                 client.addInterceptor(interceptor);
+            }
+            try {
+                client = NetWorkManager.getFlagMap().apply(client);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             return new Retrofit.Builder()
                     .client(client.build())

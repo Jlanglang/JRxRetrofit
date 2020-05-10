@@ -12,7 +12,7 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class CacheInterceptor implements Interceptor {
+public class GetCacheInterceptor implements Interceptor {
     @Override
     @NonNull
     public Response intercept(@NonNull Chain chain) throws IOException {

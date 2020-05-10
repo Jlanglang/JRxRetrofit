@@ -1,6 +1,7 @@
 package com.baozi.linfeng.location.model;
 
 
+import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -15,7 +16,7 @@ public class StringResponseDeserializer implements JsonDeserializer<String> {
         if (json.isJsonNull()) {
             return "";
         }
-        if (json.isJsonArray() || json.isJsonObject()) {
+        if (json.isJsonObject()) {
             return json.toString();
         }
         return json.getAsString();
