@@ -74,11 +74,6 @@ public class NetStringParseInfo implements IParse<String, JsonElement> {
                 errorMsg = callbackMsg;
             }
         }
-
-        //如果callback不处理,并打开isOpenApiException,则抛出服务器返回msg信息
-        if (TextUtils.isEmpty(errorMsg) && NetWorkManager.isOpenApiException()) {
-            errorMsg = msg;
-        }
         //抛出异常,走到onError.
         throw new APIException(code, errorMsg);
     }
