@@ -48,25 +48,33 @@ public class NetStringParseInfo implements IParse<String, JsonElement> {
         return true;
     }
 
+    public boolean isSuccess(JsonObject jsonObject) {
+        if (checkSuccess != null) {
+            return checkSuccess.isSuccess(jsonObject);
+        }
+        String code = jsonObject.get(codeKey).toString();
+        return TextUtils.equals(code, successCode);
+    }
+
     public String parse(JsonElement jsonElement) throws APIException {
         JsonObject asJsonObject = jsonElement.getAsJsonObject();
-        if (checkSuccess != null) {
-            boolean success = checkSuccess.isSuccess(asJsonObject);
-            if (success) {
-                return JSONFactory.getValue(jsonElement, dataKey);
-            }
+        if (isSuccess(asJsonObject)) {
+            return JSONFactory.getValue(jsonElement, dataKey);
         }
+
         String msg = JSONFactory.getValue(jsonElement, msgKey);
         String code = JSONFactory.getValue(jsonElement, codeKey);
+
         String errorMsg = null;
         //通过code获取注册的接口回调.
         APICallBack apiCallback = NetWorkManager.getApiCallback();
         if (apiCallback != null) {
-            String callbackMsg = apiCallback.callback(code, jsonElement.toString());
+            String callbackMsg = apiCallback.callback(code, msg, jsonElement.toString());
             if (!TextUtils.isEmpty(callbackMsg)) {
                 errorMsg = callbackMsg;
             }
         }
+
         //如果callback不处理,并打开isOpenApiException,则抛出服务器返回msg信息
         if (TextUtils.isEmpty(errorMsg) && NetWorkManager.isOpenApiException()) {
             errorMsg = msg;

@@ -52,7 +52,8 @@ public class NetStringTransformer implements ObservableTransformer<String, Strin
         HashSet<IParse> parseInterceptors = NetWorkManager.getParseInfo();
         for (IParse p : parseInterceptors) { // 优先判断自定义添加的解析
             if (p instanceof NetStringParseInfo) {
-                if (p.isParse(jsonElement)) {
+                NetStringParseInfo netStringParseInfo = (NetStringParseInfo) p;
+                if (netStringParseInfo.isParse(jsonElement)) {
                     return (NetStringParseInfo) p;
                 }
             }
