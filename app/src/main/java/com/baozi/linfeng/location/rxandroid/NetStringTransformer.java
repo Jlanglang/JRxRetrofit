@@ -19,7 +19,6 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * 网络请求通用设置转换器
  * 组件化的情况下,如果解析失败,请使用JsonArrayParesTransformer,JsonParesTransformer
- * 当data可能为null时,请使用JsonArrayParesTransformer,JsonParesTransformer
  */
 public class NetStringTransformer implements ObservableTransformer<String, String> {
     private static final NetStringTransformer netWork = new NetStringTransformer();
@@ -44,7 +43,6 @@ public class NetStringTransformer implements ObservableTransformer<String, Strin
                     if (parseInfo == null) {
                         return response;
                     }
-                    parseInfo.parse(asJsonObject);
                     return parseInfo.parse(asJsonObject);
                 });
     }
