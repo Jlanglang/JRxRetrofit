@@ -44,6 +44,7 @@ public class NetStringTransformer implements ObservableTransformer<String, Strin
                     if (parseInfo == null) {
                         return response;
                     }
+                    parseInfo.parse(asJsonObject);
                     return parseInfo.parse(asJsonObject);
                 });
     }
@@ -52,10 +53,7 @@ public class NetStringTransformer implements ObservableTransformer<String, Strin
         HashSet<IParse> parseInterceptors = NetWorkManager.getParseInfo();
         for (IParse p : parseInterceptors) { // 优先判断自定义添加的解析
             if (p instanceof NetStringParseInfo) {
-                NetStringParseInfo netStringParseInfo = (NetStringParseInfo) p;
-                if (netStringParseInfo.isParse(jsonElement)) {
-                    return (NetStringParseInfo) p;
-                }
+                return (NetStringParseInfo) p;
             }
         }
         if (NetStringParseInfo.DEFAULT.isParse(jsonElement)) { // 判断默认的,如果不符合,说明配置错误.

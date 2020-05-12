@@ -11,4 +11,5 @@ public interface IParse<T, R> {
      * 解析
      */
     T parse(R data) throws Exception;
+
 }

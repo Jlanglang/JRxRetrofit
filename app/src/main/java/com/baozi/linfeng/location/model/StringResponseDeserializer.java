@@ -1,7 +1,6 @@
 package com.baozi.linfeng.location.model;
 
 
-import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -13,7 +12,7 @@ public class StringResponseDeserializer implements JsonDeserializer<String> {
 
     @Override
     public String deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        if (json.isJsonNull()) {
+        if (json == null || json.isJsonNull()) {
             return "";
         }
         if (json.isJsonObject()) {

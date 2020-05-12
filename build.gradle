@@ -2,7 +2,7 @@
 
 buildscript {
     repositories {
-//        google()
+        google()
 //        jcenter()
         maven {
             url 'https://maven.fabric.io/public'
@@ -29,7 +29,7 @@ buildscript {
 
 allprojects {
     repositories {
-//        google()
+        google()
 //        jcenter()
         maven {
             url 'https://maven.fabric.io/public'
@@ -44,7 +44,6 @@ allprojects {
             url 'http://maven.aliyun.com/repository/gradle-plugin'
         }
         maven { url "https://jitpack.io" }
-        mavenCentral() // add repository
     }
 }
 

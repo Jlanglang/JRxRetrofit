@@ -1,6 +1,6 @@
 package com.baozi.linfeng.converter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.baozi.linfeng.factory.JSONFactory;
 

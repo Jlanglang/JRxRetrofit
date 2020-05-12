@@ -7,7 +7,6 @@ import com.baozi.linfeng.location.APICallBack;
 import com.baozi.linfeng.location.onExceptionListener;
 import com.baozi.linfeng.location.retrofit.parse.IParse;
 import com.baozi.linfeng.location.retrofit.RetrofitUtil;
-import com.baozi.linfeng.location.retrofit.parse.NetStringParseInfo;
 
 import java.net.Proxy;
 import java.util.HashSet;
@@ -134,7 +133,7 @@ public final class NetWorkManager {
         return rxParseInfoSet;
     }
 
-    public static void addParseInfo(NetStringParseInfo parseInterceptor) {
+    public static void addParseInfo(IParse parseInterceptor) {
         rxParseInfoSet.add(parseInterceptor);
     }
 }

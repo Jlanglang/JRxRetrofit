@@ -2,12 +2,12 @@ package com.baozi.myapplication;
 
 import android.accounts.NetworkErrorException;
 import android.app.Application;
-import android.app.NotificationManager;
 
 import com.baozi.linfeng.NetWorkManager;
 import com.baozi.linfeng.factory.JSONFactory;
 import com.baozi.linfeng.location.APICallBack;
 import com.baozi.linfeng.location.onExceptionListener;
+import com.baozi.linfeng.location.retrofit.parse.NetStringParseInfo;
 import com.google.gson.JsonElement;
 
 import java.net.SocketException;
@@ -19,6 +19,9 @@ public class App extends Application {
         NetWorkManager.init("https://api.apiopen.top/", this);
         NetWorkManager.setDefaultRetry(5);//重试次数
         NetWorkManager.setDefaultTimeOut(20);//秒
+        NetWorkManager.addParseInfo(new NetStringParseInfo(null, null, null, null) {
+
+        });
         NetWorkManager.setExceptionListener(new onExceptionListener() {
             @Override
             public String onError(Throwable throwable) {
@@ -36,7 +39,7 @@ public class App extends Application {
         });
         NetWorkManager.setApiCallBack(new APICallBack() {
             @Override
-            public String callback(String code, String resultData) {
+            public String callback(String code, String msg, String resultData) {
                 if (code.equals("100")) {
                     //跳转登陆页面
                     return "登陆过期";
@@ -45,6 +48,5 @@ public class App extends Application {
                 return JSONFactory.getValue(jsonElement, "message");
             }
         });
-        NetWorkManager.setOpenApiException(true);
     }
 }

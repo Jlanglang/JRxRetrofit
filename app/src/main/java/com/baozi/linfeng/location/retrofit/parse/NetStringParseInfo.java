@@ -12,13 +12,17 @@ import com.google.gson.JsonObject;
 
 public class NetStringParseInfo implements IParse<String, JsonElement> {
     public static final NetStringParseInfo DEFAULT =
-            new NetStringParseInfo("code", "data", "msg", "200");
+            new NetStringParseInfo();
 
     private final String codeKey;
     private final String dataKey;
     private final String msgKey;
     private final String successCode;
     private CheckSuccess checkSuccess;
+
+    public NetStringParseInfo() {
+        this("code", "data", "msg", "200");
+    }
 
     public NetStringParseInfo(String codeKey, String dataKey, String msgKey, String successCode) {
         this.codeKey = codeKey;
@@ -48,14 +52,6 @@ public class NetStringParseInfo implements IParse<String, JsonElement> {
         return true;
     }
 
-    public boolean isSuccess(JsonObject jsonObject) {
-        if (checkSuccess != null) {
-            return checkSuccess.isSuccess(jsonObject);
-        }
-        String code = jsonObject.get(codeKey).toString();
-        return TextUtils.equals(code, successCode);
-    }
-
     public String parse(JsonElement jsonElement) throws APIException {
         JsonObject asJsonObject = jsonElement.getAsJsonObject();
         if (isSuccess(asJsonObject)) {
@@ -77,6 +73,15 @@ public class NetStringParseInfo implements IParse<String, JsonElement> {
         //抛出异常,走到onError.
         throw new APIException(code, errorMsg);
     }
+
+    public boolean isSuccess(JsonObject jsonObject) {
+        if (checkSuccess != null) {
+            return checkSuccess.isSuccess(jsonObject);
+        }
+        String code = jsonObject.get(codeKey).toString();
+        return TextUtils.equals(code, successCode);
+    }
+
 
     public interface CheckSuccess {
         boolean isSuccess(JsonObject jsonObject);
