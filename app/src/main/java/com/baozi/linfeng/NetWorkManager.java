@@ -12,6 +12,7 @@ import java.net.Proxy;
 import java.util.HashSet;
 
 import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 
 /**
  * 网络管理类
@@ -129,6 +130,9 @@ public final class NetWorkManager {
     }
 
 
+    public static OkHttpClient.Builder flatMapClient(OkHttpClient.Builder client) {
+        return client;
+    }
     public static HashSet<IParse> getParseInfo() {
         return rxParseInfoSet;
     }
