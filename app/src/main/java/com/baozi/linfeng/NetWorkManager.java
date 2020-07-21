@@ -11,6 +11,7 @@ import com.baozi.linfeng.location.retrofit.RetrofitUtil;
 import java.net.Proxy;
 import java.util.HashSet;
 
+import io.reactivex.functions.Function;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 
@@ -36,6 +37,7 @@ public final class NetWorkManager {
 
     private static Proxy proxy; // 代理
 
+    private static Function<OkHttpClient.Builder, OkHttpClient.Builder> flagMap;
 
     private NetWorkManager() {
 
@@ -130,8 +132,12 @@ public final class NetWorkManager {
     }
 
 
-    public static OkHttpClient.Builder flatMapClient(OkHttpClient.Builder client) {
-        return client;
+    public static Function<OkHttpClient.Builder, OkHttpClient.Builder> getFlagMap() {
+        return flagMap;
+    }
+
+    public static void setFlagMap(Function<OkHttpClient.Builder, OkHttpClient.Builder> flagMap) {
+        NetWorkManager.flagMap = flagMap;
     }
     public static HashSet<IParse> getParseInfo() {
         return rxParseInfoSet;
