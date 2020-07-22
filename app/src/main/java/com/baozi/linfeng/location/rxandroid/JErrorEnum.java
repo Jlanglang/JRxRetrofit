@@ -37,7 +37,10 @@ public enum JErrorEnum implements Consumer<Throwable> {
         //处理error异常,http异常
         onExceptionListener exceptionListener = NetWorkManager.getExceptionListener();
         if (exceptionListener != null) {
-            errMsg = exceptionListener.onError(throwable);
+            String exceptionMsg = exceptionListener.onError(throwable);
+            if (!TextUtils.isEmpty(exceptionMsg)) {
+                errMsg = exceptionMsg;
+            }
         }
         if (type == 1 && !TextUtils.isEmpty(errMsg)) {
             Toast.makeText(NetWorkManager.getContext(), errMsg, Toast.LENGTH_SHORT).show();
